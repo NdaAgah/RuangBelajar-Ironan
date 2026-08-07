@@ -27,7 +27,7 @@ body {
 /* Layout Shell */
 .cyber-shell {
   width: 100%;
-  max-width: 480px;
+  max-width: 100% /*<-- 480px; */
   min-height: 100vh;
   padding: 20px;
   display: flex;
