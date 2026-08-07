@@ -1,25 +1,28 @@
+// js/app.js
 import { initNeonGrid } from './modules/neonGrid.js';
-import { fetchRemoteData } from './modules/apiService.js';
+import { fetchFromGAS } from './modules/apiService.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Jalankan Modul Animasi Canvas
+  // 1. Inisialisasi Canvas Neon
   initNeonGrid('neonCanvas');
 
-  // 2. Event Listener UI
+  // 2. Tempelkan URL Web App GAS Anda di sini
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbwmESmyxp7xr_QK3p0ocOUm0xrVpSxWqS6NAMjdgGb0Yt7c36t1qMxZl3x42TGxc-Bi5Q/exec";
+
   const btnFetch = document.getElementById('btnFetch');
   const dataOutput = document.getElementById('dataOutput');
 
+  // 3. Panggil API GAS saat tombol diklik
   btnFetch.addEventListener('click', async () => {
-    dataOutput.innerText = "> Mengirim sinyal request...";
+    dataOutput.innerText = "> MENSTRANSMISIKAN SINYAL KE GAS...";
     
-    // Nanti URL ini bisa diganti dengan Web App URL dari GAS
-    const fakeApiUrl = "https://jsonplaceholder.typicode.com/todos/1"; 
-    const result = await fetchRemoteData(fakeApiUrl);
+    const result = await fetchFromGAS(GAS_URL);
     
-    dataOutput.innerText = `> RESPONSE:\n${JSON.stringify(result, null, 2)}`;
+    // Tampilkan hasil respon dari GAS ke UI PWA
+    dataOutput.innerText = `> SINYAL DITERIMA:\n${JSON.stringify(result, null, 2)}`;
   });
 
-  // 3. Registrasi Service Worker PWA
+  // 4. Service Worker PWA
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
       .then(reg => console.log('SW Registered:', reg.scope))
