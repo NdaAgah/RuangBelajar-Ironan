@@ -1,0 +1,130 @@
+/* Core Variables */
+:root {
+  --bg-color: #08090d;
+  --cyan-neon: #00f3ff;
+  --magenta-neon: #ff0055;
+  --panel-bg: rgba(13, 14, 21, 0.75);
+  --grid-line: rgba(0, 243, 255, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--cyan-neon);
+  font-family: 'Courier New', Courier, monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Layout Shell */
+.cyber-shell {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  background: radial-gradient(circle at center, #121526 0%, var(--bg-color) 100%);
+}
+
+/* Header Neon */
+.cyber-header {
+  text-align: center;
+  border-bottom: 1px solid var(--cyan-neon);
+  padding-bottom: 15px;
+  box-shadow: 0 4px 15px -5px var(--cyan-neon);
+}
+
+.neon-title {
+  font-size: 1.8rem;
+  letter-spacing: 4px;
+  color: #fff;
+  text-shadow: 
+    0 0 5px #fff,
+    0 0 10px var(--cyan-neon),
+    0 0 20px var(--cyan-neon);
+}
+
+.neon-subtitle {
+  font-size: 0.8rem;
+  color: #8a99ad;
+  margin-top: 5px;
+}
+
+#sys-status {
+  color: var(--cyan-neon);
+  text-shadow: 0 0 8px var(--cyan-neon);
+}
+
+/* Canvas Area */
+.canvas-wrapper {
+  width: 100%;
+  height: 180px;
+  border: 1px solid var(--grid-line);
+  position: relative;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Panel & Neon Border */
+.cyber-panel {
+  position: relative;
+  background: var(--panel-bg);
+  border: 1px solid var(--cyan-neon);
+  padding: 20px;
+  box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.1), 0 0 15px rgba(0, 243, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cyber-panel h2 {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  border-left: 3px solid var(--magenta-neon);
+  padding-left: 8px;
+}
+
+/* Futuristic Button */
+.cyber-btn {
+  background: transparent;
+  border: 1px solid var(--cyan-neon);
+  color: var(--cyan-neon);
+  padding: 12px;
+  font-family: inherit;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-shadow: 0 0 5px var(--cyan-neon);
+}
+
+.cyber-btn:hover, .cyber-btn:active {
+  background: var(--cyan-neon);
+  color: var(--bg-color);
+  box-shadow: 0 0 15px var(--cyan-neon);
+}
+
+.cyber-output {
+  font-size: 0.85rem;
+  min-height: 50px;
+  padding: 10px;
+  border: 1px dashed var(--grid-line);
+  color: #a0f0ff;
+  word-break: break-all;
+}
