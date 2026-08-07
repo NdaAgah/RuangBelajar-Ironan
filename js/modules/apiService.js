@@ -1,11 +1,22 @@
-// Modul terpisah khusus untuk komunikasi API (GAS atau Backend lain)
-export async function fetchRemoteData(endpointUrl) {
+// js/modules/apiService.js
+
+export async function fetchFromGAS(gasWebappUrl) {
   try {
-    const response = await fetch(endpointUrl);
-    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-    return await response.json();
+    // Memanggil Web App GAS via HTTP GET
+    const response = await fetch(gasWebappUrl);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP Error Status: ${response.status}`);
+    }
+    
+    // Menerima data JSON dari doGet() GAS
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.warn("Koneksi remote gagal, menggunakan fallback data:", error);
-    return { status: "OFFLINE_MODE", message: "Gagal terhubung ke remote server." };
+    console.error("Gagal terhubung ke GAS:", error);
+    return {
+      status: "ERROR",
+      message: "Gagal terhubung ke server remote GAS. Periksa jaringan atau URL Web App."
+    };
   }
 }
