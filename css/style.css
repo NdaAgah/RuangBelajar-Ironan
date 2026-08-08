@@ -1,5 +1,9 @@
 /* Core Variables */
-/*:root {
+:root {
+  --cyber-lime: #ccff00; /* Hijau kekuningan khas konsol */
+  --cyber-cyan: #00f3ff;
+  --bg-hud: rgba(10, 15, 25, 0.25); /* Transparansi 25% */
+  --bg-modal: rgba(13, 17, 23, 0.70); /* Transparansi 70% untuk Form */
   --bg-color: #08090d;
   --cyan-neon: #00f3ff;
   --magenta-neon: #ff0055;
@@ -25,8 +29,9 @@ body {
 }
 
 /* Layout Shell */
-/*.cyber-shell {
+.cyber-shell {
   width: 100%;
+  /*<-- 480px; */
   max-width: 100%;
   min-height: 100vh;
   padding: 20px;
@@ -35,10 +40,10 @@ body {
   gap: 20px;
   position: relative;
   background: radial-gradient(circle at center, #121526 0%, var(--bg-color) 100%);
-}*/
+}
 
 /* Header Neon */
-/*.cyber-header {
+.cyber-header {
   text-align: center;
   border-bottom: 1px solid var(--cyan-neon);
   padding-bottom: 15px;
@@ -64,10 +69,10 @@ body {
 #sys-status {
   color: var(--cyan-neon);
   text-shadow: 0 0 8px var(--cyan-neon);
-}*/
+}
 
 /* Canvas Area */
-/*.canvas-wrapper {
+.canvas-wrapper {
   width: 100%;
   height: 180px;
   border: 1px solid var(--grid-line);
@@ -79,10 +84,10 @@ canvas {
   width: 100%;
   height: 100%;
   display: block;
-}*/
+}
 
 /* Panel & Neon Border */
-/*.cyber-panel {
+.cyber-panel {
   position: relative;
   background: var(--panel-bg);
   border: 1px solid var(--cyan-neon);
@@ -98,10 +103,10 @@ canvas {
   letter-spacing: 2px;
   border-left: 3px solid var(--magenta-neon);
   padding-left: 8px;
-}*/
+}
 
 /* Futuristic Button */
-/*.cyber-btn {
+.cyber-btn {
   background: transparent;
   border: 1px solid var(--cyan-neon);
   color: var(--cyan-neon);
@@ -127,16 +132,6 @@ canvas {
   border: 1px dashed var(--grid-line);
   color: #a0f0ff;
   word-break: break-all;
-} */
-
-/* ==========================================
-   Warna Utama & Teks Terminal
-   ========================================== */
-:root {
-  --cyber-lime: #ccff00; /* Hijau kekuningan khas konsol */
-  --cyber-cyan: #00f3ff;
-  --bg-hud: rgba(10, 15, 25, 0.25); /* Transparansi 25% */
-  --bg-modal: rgba(13, 17, 23, 0.70); /* Transparansi 70% untuk Form */
 }
 
 /* ==========================================
