@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNeonGrid('neonCanvas');
 
   // 2. Tempelkan URL Web App GAS Anda di sini
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbwsYkqOegWanTuH4YqWYW3gK7j6FQnI_EcsFcBmSHaqBkm_-dGaZ9YYgN3iQNww6yRr-w/exec";
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbyJrosdFAScOfpdE1MW4EbEgLvF3pr3WL6V31MSNugdAYkSRXw6CrI9BI-7gbX72p26sQ/exec";
 
   const btnFetch = document.getElementById('btnFetch');
   const dataOutput = document.getElementById('dataOutput');
