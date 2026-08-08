@@ -17,7 +17,17 @@
   padding: 0;
 }
 
+/* Body Background Baru */
 body {
+  background-color: #080c14; /* Dark Cyber Background */
+  color: #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/*body {
   background-color: var(--bg-color);
   color: var(--cyan-neon);
   font-family: 'Courier New', Courier, monospace;
@@ -26,6 +36,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}*/
+
+/* Canvas Neon di Latar Belakang Paling Belakang */
+#neonCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* Layout Shell */
@@ -159,18 +180,21 @@ canvas {
 /* ==========================================
    LAYOUT DESKTOP: HUD SIDEBAR (25% KANAN)
    ========================================== */
+/* Memastikan Konten Berada di Atas Canvas */
 .app-workspace {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding: 1rem;
+  padding: 1.5rem;
   box-sizing: border-box;
 }
 
 @media (min-width: 992px) {
   .app-workspace {
     display: grid;
-    grid-template-columns: 1fr 320px; /* Main Area 75% | HUD Sidebar 25% */
+    grid-template-columns: 1fr 320px; /* 75% Left | 25% HUD Right */
     gap: 1.5rem;
   }
 }
@@ -215,4 +239,106 @@ canvas {
   max-width: 480px;
   width: 100%;
   margin: auto; /* Posisi tengah di area utama */
+}
+
+/* Memastikan Konten Berada di Atas Canvas */
+.app-workspace {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 992px) {
+  .app-workspace {
+    display: grid;
+    grid-template-columns: 1fr 320px; /* 75% Left | 25% HUD Right */
+    gap: 1.5rem;
+  }
+}
+
+/* ==========================================
+   FORM & FIELD STYLING
+   ========================================== */
+.form-card-floating {
+  background: rgba(13, 17, 23, 0.70);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 243, 255, 0.4);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 480px;
+  width: 100%;
+  margin: 2rem auto;
+  box-shadow: 0 0 25px rgba(0, 243, 255, 0.15);
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #00f3ff;
+  letter-spacing: 1px;
+}
+
+.user-form input,
+.user-form select {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #00f3ff, #ff0055);
+  border: none;
+  border-radius: 6px;
+  color: #000;
+  font-weight: bold;
+  padding: 0.85rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+/* ==========================================
+   HUD SIDEBAR KANAN (25%)
+   ========================================== */
+.hud-sidebar {
+  background: rgba(10, 15, 25, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(204, 255, 0, 0.25);
+  border-radius: 12px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: calc(100vh - 3rem);
+}
+
+.log-content {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.82rem;
+  color: #ccff00; /* Hijau Kekuningan Terminal */
+  white-space: pre-wrap;
+  overflow-y: auto;
+  flex-grow: 1;
 }
