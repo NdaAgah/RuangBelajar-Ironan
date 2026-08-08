@@ -1,28 +1,63 @@
 // js/app.js
 import { initNeonGrid } from './modules/neonGrid.js';
-import { fetchFromGAS } from './modules/apiService.js';
+import { fetchFromGAS, sendToGAS, writeLog } from './modules/apiService.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Inisialisasi Canvas Neon
   initNeonGrid('neonCanvas');
 
-  // 2. Tempelkan URL Web App GAS Anda di sini
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbyJrosdFAScOfpdE1MW4EbEgLvF3pr3WL6V31MSNugdAYkSRXw6CrI9BI-7gbX72p26sQ/exec";
+  // 2. URL Web App Google Apps Script Utama
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbzu3Bcg-fBX0UcUD7Jb9YDkks-OdLmWayxsvJvrpxLbf4vEYG5vZuS-rK5MEwOx25S3gA/exec";
 
+  // -------------------------------------------------------------
+  // A. Fungsionalitas Tes Sinyal API (Tombol Fetch GET)
+  // -------------------------------------------------------------
   const btnFetch = document.getElementById('btnFetch');
   const dataOutput = document.getElementById('dataOutput');
 
-  // 3. Panggil API GAS saat tombol diklik
-  btnFetch.addEventListener('click', async () => {
-    dataOutput.innerText = "> MENSTRANSMISIKAN SINYAL KE GAS...";
-    
-    const result = await fetchFromGAS(GAS_URL);
-    
-    // Tampilkan hasil respon dari GAS ke UI PWA
-    dataOutput.innerText = `> SINYAL DITERIMA:\n${JSON.stringify(result, null, 2)}`;
-  });
+  if (btnFetch && dataOutput) {
+    btnFetch.addEventListener('click', async () => {
+      dataOutput.innerText = "> MENSTRANSMISIKAN SINYAL KE GAS...";
+      
+      const result = await fetchFromGAS(GAS_URL);
+      
+      // Tampilkan hasil respon dari GAS ke UI PWA
+      dataOutput.innerText = `> SINYAL DITERIMA:\n${JSON.stringify(result, null, 2)}`;
+    });
+  }
 
-  // 4. Service Worker PWA
+  // -------------------------------------------------------------
+  // B. Fungsionalitas Form Entri User (POST ke Google Sheets)
+  // -------------------------------------------------------------
+  const userForm = document.getElementById('userForm');
+
+  if (userForm) {
+    userForm.addEventListener('submit', async (event) => {
+      event.preventDefault(); // Mencegah reload halaman
+
+      const payload = {
+        nama: document.getElementById('inputNama').value,
+        email: document.getElementById('inputEmail').value,
+        role: document.getElementById('selectRole').value
+      };
+
+      writeLog("Form disubmit oleh pengguna.");
+      
+      // Kirim data ke Google Apps Script
+      const result = await sendToGAS(GAS_URL, payload);
+
+      if (result.status === "SUCCESS") {
+        writeLog("BERHASIL: Data pengguna tercatat di spreadsheet!");
+        userForm.reset(); // Kosongkan form
+      } else {
+        writeLog("GAGAL: Data tidak tersimpan di backend.", true);
+      }
+    });
+  }
+
+  // -------------------------------------------------------------
+  // C. Inisialisasi Service Worker PWA
+  // -------------------------------------------------------------
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
       .then(reg => console.log('SW Registered:', reg.scope))
