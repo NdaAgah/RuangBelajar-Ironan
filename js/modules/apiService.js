@@ -20,3 +20,30 @@ export async function fetchFromGAS(gasWebappUrl) {
     };
   }
 }
+
+// Fungsi GET (yang sudah ada)
+// export async function fetchFromGAS(gasWebappUrl) { ... }
+
+// Fungsi POST Baru untuk Mengirim Data User
+export async function sendToGAS(gasWebappUrl, payload) {
+  try {
+    const response = await fetch(gasWebappUrl, {
+      method: "POST",
+      // Penggunaan text/plain menghindari isu CORS Preflight di Google Apps Script
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP Error Status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Gagal mengirim data ke GAS:", error);
+    return {
+      status: "ERROR",
+      message: "Gagal terhubung ke backend server."
+    };
+  }
+}
