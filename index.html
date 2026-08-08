@@ -24,6 +24,21 @@
       <canvas id="neonCanvas"></canvas>
     </div>
 
+    <!-- Form User Sederhana -->
+    <div class="user-form-container">
+      <h3>REGISTER USER BARU</h3>
+      <form id="userForm">
+        <input type="text" id="inputNama" placeholder="Nama Lengkap" required />
+        <input type="email" id="inputEmail" placeholder="Alamat Email" required />
+        <select id="selectRole">
+          <option value="Siswa">Siswa</option>
+          <option value="Pengajar">Pengajar</option>
+        </select>
+        <button type="submit" id="btnSubmit">KIRIM DATA USER</button>
+      </form>
+      <div id="formStatus"></div>
+    </div>
+
     <!-- UI Panel Futuristis -->
     <section class="cyber-panel">
       <div class="panel-border"></div>
