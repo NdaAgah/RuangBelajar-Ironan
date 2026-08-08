@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CyberCore PWA</title>
+  <title>CyberCore PWA - Ruang Belajar</title>
   
   <!-- PWA & Theme -->
   <link rel="manifest" href="manifest.json">
@@ -11,22 +11,23 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Canvas Background Neon (Wajib Ada) -->
-  <canvas id="neonCanvas"></canvas>
-    <div class="cyber-header">
-      <h1 class="neon-title" data-text="CYBER//CORE">CYBER//CORE - GAS TEST</h1>
-      <p class="neon-subtitle">SYSTEM STATUS: <span id="sys-status">ONLINE</span></p>
-    </div>
 
-    <!-- Canvas untuk Efek Animasi Neon Grid/Garis -->
-    <div class="canvas-wrapper">
-      <canvas id="neonCanvas"></canvas>
-    </div>
-  </canvas>
-  
+  <!-- Canvas Background Neon (Latar Paling Belakang) -->
+  <canvas id="neonCanvas"></canvas>
+
+  <!-- Workspace Utama Application Shell -->
   <main class="app-workspace">
-    <!-- Area Utama Kiri (75%) -->
+    
+    <!-- Area Utama Kiri (75% Desktop) -->
     <section class="main-content-area">
+      
+      <!-- Header Aplikasi -->
+      <header class="cyber-header">
+        <h1 class="neon-title" data-text="CYBER//CORE">CYBER//CORE</h1>
+        <p class="neon-subtitle">SYSTEM STATUS: <span id="sys-status">ONLINE</span></p>
+      </header>
+
+      <!-- Form Registrasi User (Floating Modal) -->
       <div class="form-card-floating">
         <h3>// REGISTRASI USER</h3>
         <form id="userForm" class="user-form">
@@ -51,9 +52,10 @@
           <button type="submit" id="btnSubmit" class="btn-primary">KIRIM DATA USER</button>
         </form>
       </div>
+
     </section>
 
-    <!-- Panel HUD Kanan (25%) -->
+    <!-- Panel HUD Sidebar Kanan (25% Desktop) -->
     <aside class="hud-sidebar">
       <div class="hud-header">
         <h4>RUANG BELAJAR</h4>
@@ -70,6 +72,7 @@
         </div>
       </div>
     </aside>
+
   </main>
 
   <!-- Script Modular (ES Module) -->
