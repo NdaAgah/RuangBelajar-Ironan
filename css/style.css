@@ -1,5 +1,5 @@
 /* Core Variables */
-:root {
+/*:root {
   --bg-color: #08090d;
   --cyan-neon: #00f3ff;
   --magenta-neon: #ff0055;
@@ -25,9 +25,8 @@ body {
 }
 
 /* Layout Shell */
-.cyber-shell {
+/*.cyber-shell {
   width: 100%;
-  /*<-- 480px; */
   max-width: 100%;
   min-height: 100vh;
   padding: 20px;
@@ -36,10 +35,10 @@ body {
   gap: 20px;
   position: relative;
   background: radial-gradient(circle at center, #121526 0%, var(--bg-color) 100%);
-}
+}*/
 
 /* Header Neon */
-.cyber-header {
+/*.cyber-header {
   text-align: center;
   border-bottom: 1px solid var(--cyan-neon);
   padding-bottom: 15px;
@@ -65,10 +64,10 @@ body {
 #sys-status {
   color: var(--cyan-neon);
   text-shadow: 0 0 8px var(--cyan-neon);
-}
+}*/
 
 /* Canvas Area */
-.canvas-wrapper {
+/*.canvas-wrapper {
   width: 100%;
   height: 180px;
   border: 1px solid var(--grid-line);
@@ -80,10 +79,10 @@ canvas {
   width: 100%;
   height: 100%;
   display: block;
-}
+}*/
 
 /* Panel & Neon Border */
-.cyber-panel {
+/*.cyber-panel {
   position: relative;
   background: var(--panel-bg);
   border: 1px solid var(--cyan-neon);
@@ -99,10 +98,10 @@ canvas {
   letter-spacing: 2px;
   border-left: 3px solid var(--magenta-neon);
   padding-left: 8px;
-}
+}*/
 
 /* Futuristic Button */
-.cyber-btn {
+/*.cyber-btn {
   background: transparent;
   border: 1px solid var(--cyan-neon);
   color: var(--cyan-neon);
@@ -128,4 +127,97 @@ canvas {
   border: 1px dashed var(--grid-line);
   color: #a0f0ff;
   word-break: break-all;
+} */
+
+/* ==========================================
+   Warna Utama & Teks Terminal
+   ========================================== */
+:root {
+  --cyber-lime: #ccff00; /* Hijau kekuningan khas konsol */
+  --cyber-cyan: #00f3ff;
+  --bg-hud: rgba(10, 15, 25, 0.25); /* Transparansi 25% */
+  --bg-modal: rgba(13, 17, 23, 0.70); /* Transparansi 70% untuk Form */
+}
+
+/* ==========================================
+   CUSTOM SCROLLBAR NEON (Terminal Log)
+   ========================================== */
+.log-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.log-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.log-content::-webkit-scrollbar-thumb {
+  background: rgba(204, 255, 0, 0.4); /* Lime Transparan */
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(204, 255, 0, 0.6);
+}
+
+.log-content::-webkit-scrollbar-thumb:hover {
+  background: var(--cyber-lime); /* Lime Menyala saat di-hover */
+}
+
+/* ==========================================
+   LAYOUT DESKTOP: HUD SIDEBAR (25% KANAN)
+   ========================================== */
+.app-workspace {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 992px) {
+  .app-workspace {
+    display: grid;
+    grid-template-columns: 1fr 320px; /* Main Area 75% | HUD Sidebar 25% */
+    gap: 1.5rem;
+  }
+}
+
+/* Panel HUD Kanan (Hero + Log Gabung) */
+.hud-sidebar {
+  background: var(--bg-hud);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(204, 255, 0, 0.2);
+  border-radius: 12px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Teks Log & Status Hijau Kekuningan */
+.log-content {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.82rem;
+  color: var(--cyber-lime);
+  text-shadow: 0 0 5px rgba(204, 255, 0, 0.4);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+/* ==========================================
+   FORM FLOATING / MODAL (Transparansi 65-75%)
+   ========================================== */
+.form-card-floating {
+  background: var(--bg-modal);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 243, 255, 0.4);
+  border-radius: 12px;
+  padding: 1.8rem;
+  box-shadow: 0 0 25px rgba(0, 243, 255, 0.15);
+  max-width: 480px;
+  width: 100%;
+  margin: auto; /* Posisi tengah di area utama */
 }
