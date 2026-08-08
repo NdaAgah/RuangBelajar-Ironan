@@ -11,30 +11,25 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-  <!-- Canvas Background -->
+  <!-- Canvas Background Neon (Wajib Ada) -->
   <canvas id="neonCanvas"></canvas>
-  
-  <!-- Layout Futuristic -->
+
   <main class="app-workspace">
-  
-    <!-- Area Utama Kiri (75%): Tempat Form & Canvas BG -->
+    <!-- Area Utama Kiri (75%) -->
     <section class="main-content-area">
-    
-      <!-- Kartu Form Register (Muncul Melayang dengan Transparansi 70%) -->
-      <div class="form-card-floating" id="formUserContainer">
+      <div class="form-card-floating">
         <h3>// REGISTRASI USER</h3>
         <form id="userForm" class="user-form">
           <div class="form-group">
             <label for="inputNama">NAMA LENGKAP</label>
             <input type="text" id="inputNama" placeholder="Contoh: Penulis Eksentrik" required />
           </div>
-        
+          
           <div class="form-group">
             <label for="inputEmail">ALAMAT EMAIL</label>
             <input type="email" id="inputEmail" placeholder="nama@email.com" required />
           </div>
-        
+          
           <div class="form-group">
             <label for="selectRole">PERAN (ROLE)</label>
             <select id="selectRole">
@@ -48,14 +43,14 @@
       </div>
     </section>
 
-    <!-- Panel HUD Kanan (25%): Gabungan Hero & Terminal Log -->
+    <!-- Panel HUD Kanan (25%) -->
     <aside class="hud-sidebar">
       <div class="hud-header">
         <h4>RUANG BELAJAR</h4>
         <p class="status-indicator">⚡ SYSTEM ONLINE</p>
         <button id="btnFetch" class="btn-secondary-sm">TES SINYAL (GET)</button>
       </div>
-    
+      
       <hr class="hud-divider" />
 
       <div class="hud-terminal">
