@@ -1,14 +1,13 @@
-/* Core Variables */
+/* ==========================================
+   1. CORE VARIABLES & RESET
+   ========================================== */
 :root {
-  --cyber-lime: #ccff00; /* Hijau kekuningan khas konsol */
-  --cyber-cyan: #00f3ff;
-  --bg-hud: rgba(10, 15, 25, 0.25); /* Transparansi 25% */
-  --bg-modal: rgba(13, 17, 23, 0.70); /* Transparansi 70% untuk Form */
-  --bg-color: #08090d;
-  --cyan-neon: #00f3ff;
-  --magenta-neon: #ff0055;
-  --panel-bg: rgba(13, 14, 21, 0.75);
-  --grid-line: rgba(0, 243, 255, 0.15);
+  --cyber-lime: #ccff00;    /* Green Terminal Log */
+  --cyber-cyan: #00f3ff;    /* Cyber Cyan Neon */
+  --cyber-pink: #ff0055;    /* Magenta Accent */
+  --bg-color: #08090d;      /* Deep Dark BG */
+  --bg-hud: rgba(10, 15, 25, 0.25);   /* HUD 25% Transparency */
+  --bg-modal: rgba(13, 17, 23, 0.70); /* Form 70% Transparency */
 }
 
 * {
@@ -19,16 +18,16 @@
 
 body {
   background-color: var(--bg-color);
-  color: var(--cyan-neon);
+  color: var(--cyber-cyan);
   font-family: 'Courier New', Courier, monospace;
   min-height: 100vh;
   overflow-x: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
 }
 
-/* Canvas Neon di Latar Belakang Paling Belakang */
+/* ==========================================
+   2. CANVAS BACKGROUND
+   ========================================== */
 #neonCanvas {
   position: fixed;
   top: 0;
@@ -39,36 +38,49 @@ body {
   pointer-events: none;
 }
 
-/* Layout Shell */
-.cyber-shell {
-  width: 100%;
-  /*<-- 480px; */
-  max-width: 100%;
-  min-height: 100vh;
-  padding: 20px;
+/* ==========================================
+   3. APP WORKSPACE (GRID 75% - 25%)
+   ========================================== */
+.app-workspace {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  position: relative;
-  background: radial-gradient(circle at center, #121526 0%, var(--bg-color) 100%);
+  min-height: 100vh;
+  padding: 1.5rem;
+  gap: 1.5rem;
+  box-sizing: border-box;
 }
 
-/* Header Neon */
+@media (min-width: 992px) {
+  .app-workspace {
+    display: grid;
+    grid-template-columns: 1fr 320px; /* 75% Left | 25% HUD Right */
+    gap: 1.5rem;
+  }
+}
+
+.main-content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* ==========================================
+   4. HEADER NEON
+   ========================================== */
 .cyber-header {
   text-align: center;
-  border-bottom: 1px solid var(--cyan-neon);
-  padding-bottom: 15px;
-  box-shadow: 0 4px 15px -5px var(--cyan-neon);
+  border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+  padding-bottom: 10px;
 }
 
 .neon-title {
   font-size: 1.8rem;
   letter-spacing: 4px;
   color: #fff;
-  text-shadow: 
-    0 0 5px #fff,
-    0 0 10px var(--cyan-neon),
-    0 0 20px var(--cyan-neon);
+  text-shadow: 0 0 5px #fff, 0 0 10px var(--cyber-cyan);
 }
 
 .neon-subtitle {
@@ -78,142 +90,12 @@ body {
 }
 
 #sys-status {
-  color: var(--cyan-neon);
-  text-shadow: 0 0 8px var(--cyan-neon);
-}
-
-/* Canvas Area */
-.canvas-wrapper {
-  width: 100%;
-  height: 180px;
-  border: 1px solid var(--grid-line);
-  position: relative;
-  background: rgba(0, 0, 0, 0.4);
-}
-
-canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-/* Panel & Neon Border */
-.cyber-panel {
-  position: relative;
-  background: var(--panel-bg);
-  border: 1px solid var(--cyan-neon);
-  padding: 20px;
-  box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.1), 0 0 15px rgba(0, 243, 255, 0.2);
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.cyber-panel h2 {
-  font-size: 1rem;
-  letter-spacing: 2px;
-  border-left: 3px solid var(--magenta-neon);
-  padding-left: 8px;
-}
-
-/* Futuristic Button */
-.cyber-btn {
-  background: transparent;
-  border: 1px solid var(--cyan-neon);
-  color: var(--cyan-neon);
-  padding: 12px;
-  font-family: inherit;
-  font-weight: bold;
-  letter-spacing: 1.5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-shadow: 0 0 5px var(--cyan-neon);
-}
-
-.cyber-btn:hover, .cyber-btn:active {
-  background: var(--cyan-neon);
-  color: var(--bg-color);
-  box-shadow: 0 0 15px var(--cyan-neon);
-}
-
-.cyber-output {
-  font-size: 0.85rem;
-  min-height: 50px;
-  padding: 10px;
-  border: 1px dashed var(--grid-line);
-  color: #a0f0ff;
-  word-break: break-all;
-}
-
-/* ==========================================
-   CUSTOM SCROLLBAR NEON (Terminal Log)
-   ========================================== */
-.log-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-.log-content::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-}
-
-.log-content::-webkit-scrollbar-thumb {
-  background: rgba(204, 255, 0, 0.4); /* Lime Transparan */
-  border-radius: 4px;
-  box-shadow: 0 0 8px rgba(204, 255, 0, 0.6);
-}
-
-.log-content::-webkit-scrollbar-thumb:hover {
-  background: var(--cyber-lime); /* Lime Menyala saat di-hover */
-}
-
-/* ==========================================
-   LAYOUT DESKTOP: HUD SIDEBAR (25% KANAN)
-   ========================================== */
-.app-workspace {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-@media (min-width: 992px) {
-  .app-workspace {
-    display: grid;
-    grid-template-columns: 1fr 320px; /* Main Area 75% | HUD Sidebar 25% */
-    gap: 1.5rem;
-  }
-}
-
-/* Panel HUD Kanan (Hero + Log Gabung) */
-.hud-sidebar {
-  background: var(--bg-hud);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(204, 255, 0, 0.2);
-  border-radius: 12px;
-  padding: 1.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-}
-
-/* Teks Log & Status Hijau Kekuningan */
-.log-content {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.82rem;
   color: var(--cyber-lime);
-  text-shadow: 0 0 5px rgba(204, 255, 0, 0.4);
-  line-height: 1.5;
-  white-space: pre-wrap;
-  overflow-y: auto;
-  flex-grow: 1;
+  text-shadow: 0 0 8px var(--cyber-lime);
 }
 
 /* ==========================================
-   FORM FLOATING / MODAL (Transparansi 65-75%)
+   5. FORM CARD FLOATING (70% Transparansi)
    ========================================== */
 .form-card-floating {
   background: var(--bg-modal);
@@ -225,5 +107,157 @@ canvas {
   box-shadow: 0 0 25px rgba(0, 243, 255, 0.15);
   max-width: 480px;
   width: 100%;
-  margin: auto; /* Posisi tengah di area utama */
+  margin: 1rem auto;
+}
+
+.form-card-floating h3 {
+  color: var(--cyber-cyan);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+  padding-bottom: 0.5rem;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.8rem;
+  color: #8a99ad;
+  letter-spacing: 1px;
+}
+
+.user-form input,
+.user-form select {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.user-form input:focus,
+.user-form select:focus {
+  border-color: var(--cyber-pink);
+  box-shadow: 0 0 8px rgba(255, 0, 85, 0.4);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--cyber-cyan), var(--cyber-pink));
+  border: none;
+  border-radius: 6px;
+  color: #000;
+  font-family: inherit;
+  font-weight: bold;
+  padding: 0.85rem;
+  cursor: pointer;
+  letter-spacing: 1px;
+  margin-top: 0.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+}
+
+/* ==========================================
+   6. HUD SIDEBAR (25% Transparansi)
+   ========================================== */
+.hud-sidebar {
+  background: var(--bg-hud);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(204, 255, 0, 0.25);
+  border-radius: 12px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: calc(100vh - 3rem);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.hud-header h4 {
+  color: #fff;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.status-indicator {
+  font-size: 0.75rem;
+  color: var(--cyber-lime);
+  margin: 0.3rem 0 0.8rem 0;
+}
+
+.btn-secondary-sm {
+  background: transparent;
+  border: 1px solid var(--cyber-lime);
+  color: var(--cyber-lime);
+  padding: 0.5rem 0.8rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary-sm:hover {
+  background: var(--cyber-lime);
+  color: #000;
+}
+
+.hud-divider {
+  border: 0;
+  border-top: 1px solid rgba(204, 255, 0, 0.2);
+}
+
+.hud-terminal small {
+  color: #8a99ad;
+  font-size: 0.75rem;
+}
+
+.log-content {
+  font-size: 0.82rem;
+  color: var(--cyber-lime);
+  text-shadow: 0 0 5px rgba(204, 255, 0, 0.4);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  flex-grow: 1;
+  margin-top: 0.5rem;
+  max-height: calc(100vh - 200px);
+}
+
+/* Custom Scrollbar Neon */
+.log-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.log-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.log-content::-webkit-scrollbar-thumb {
+  background: rgba(204, 255, 0, 0.4);
+  border-radius: 4px;
+}
+
+.log-content::-webkit-scrollbar-thumb:hover {
+  background: var(--cyber-lime);
 }
