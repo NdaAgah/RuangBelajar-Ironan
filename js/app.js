@@ -5,10 +5,7 @@ import { fetchFromGAS, sendToGAS, writeLog } from './modules/apiService.js';
 
 let currentTheme = 'neural'; // State awal
 
-//const btnToggle = document.getElementById('btnToggleTheme');
-//const themeLabel = document.getElementById('themeLabel');
-
-// Fungsi pengganti Tema
+// Fungsi pengganti Tema (Boleh tetap di luar)
 function toggleTheme() {
   stopAnimation();
 
@@ -27,27 +24,26 @@ function toggleTheme() {
   }
 }
 
-// Event Listener SEMUA tombol dengan class .btn-toggle-theme
-const toggleButtons = document.querySelectorAll('.btn-toggle-theme');
-toggleButtons.forEach(button => {
-  button.addEventListener('click', toggleTheme);
-});
-
 document.addEventListener('DOMContentLoaded', () => {
-  /* --------------------------------------------------------------------
-  // init IRobot Theme                                                   
-  ......................................................................*/
+  // --------------------------------------------------------------------
+  // Inisialisasi Canvas Theme & Event Listener Switch Theme
+  // --------------------------------------------------------------------
   initIRobotTheme('neonCanvas', currentTheme);
-  
-  /* --------------------------------------------------------------------
-  // URL Deployment Google APss Script                                    
-  ......................................................................*/
+
+  // Dipindahkan ke DALAM DOMContentLoaded agar tombol ditemukan
+  const toggleButtons = document.querySelectorAll('.btn-toggle-theme');
+  toggleButtons.forEach(button => {
+    button.addEventListener('click', toggleTheme);
+  });
+
+  // --------------------------------------------------------------------
+  // URL Deployment Google Apps Script
+  // --------------------------------------------------------------------
   const GAS_URL = "https://script.google.com/macros/s/AKfycbzu3Bcg-fBX0UcUD7Jb9YDkks-OdLmWayxsvJvrpxLbf4vEYG5vZuS-rK5MEwOx25S3gA/exec";
 
-
-  /* --------------------------------------------------------------------
+  // --------------------------------------------------------------------
   // A. Fungsionalitas Tes Sinyal API (Tombol Fetch GET)
-  ......................................................................*/
+  // --------------------------------------------------------------------
   const btnFetch = document.getElementById('btnFetch');
   const dataOutput = document.getElementById('dataOutput');
 
@@ -65,66 +61,50 @@ document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------------
   // B. Fungsionalitas Form Entri User (POST ke Google Sheets)
   // -------------------------------------------------------------
-    // 1. Dapatkan Elemen Form dan Input
-    const userForm = document.querySelector('form');
+  const userForm = document.querySelector('form');
+  
+  async function checkConnection() {
+    writeLog("Menghubungkan ke Google Sheets via GET...");
+    const res = await fetchFromGAS(GAS_URL);
     
-    // 2. KONEKSI AWAIL (GET Data dari Google Sheets)
-    async function checkConnection() {
-      writeLog("Menghubungkan ke Google Sheets via GET...");
-      const res = await fetchFromGAS(GAS_URL);
+    if (res.status !== "ERROR") {
+      writeLog(`Respon GET Berhasil! Data diterima.`);
+    } else {
+      writeLog(res.message, true);
+    }
+  }
+
+  checkConnection();
+
+  if (userForm) {
+    userForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
       
-      if (res.status !== "ERROR") {
-        writeLog(`Respon GET Berhasil! Data diterima.`);
+      const namaInput = userForm.querySelector('input[placeholder*="Penulis"]');
+      const emailInput = userForm.querySelector('input[type="email"]');
+      const roleSelect = userForm.querySelector('select');
+
+      const payload = {
+        nama: namaInput ? namaInput.value : '',
+        email: emailInput ? emailInput.value : '',
+        role: roleSelect ? roleSelect.value : '',
+        timestamp: new Date().toISOString()
+      };
+
+      const result = await sendToGAS(GAS_URL, payload);
+
+      if (result && result.status !== "ERROR") {
+        writeLog(" Registrasi berhasil disimpan di Sheets!");
+        userForm.reset();
       } else {
-        writeLog(res.message, true);
+        writeLog(" Gagal menyimpan data user.", true);
       }
-    }
-  
-    // Jalankan pemeriksaan GET saat aplikasi dimuat
-    checkConnection();
-  
-    // 3. EVENT HANDLER (POST Data dari Form)
-    if (userForm) {
-      userForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Mencegah reload halaman
-        
-        // Ambil nilai dari input form
-        const namaInput = userForm.querySelector('input[placeholder*="Penulis"]');
-        const emailInput = userForm.querySelector('input[type="email"]');
-        const roleSelect = userForm.querySelector('select');
-  
-        const payload = {
-          nama: namaInput ? namaInput.value : '',
-          email: emailInput ? emailInput.value : '',
-          role: roleSelect ? roleSelect.value : '',
-          timestamp: new Date().toISOString()
-        };
-  
-        // Kirim payload ke GAS
-        const result = await sendToGAS(GAS_URL, payload);
-  
-        if (result && result.status !== "ERROR") {
-          writeLog(" Registrasi berhasil disimpan di Sheets!");
-          userForm.reset(); // Bersihkan form
-        } else {
-          writeLog(" Gagal menyimpan data user.", true);
-        }
-      });
-    }
-  });
+    });
+  }
 
   // -------------------------------------------------------------
-  // C. Inisialisasi Service Worker PWA
+  // C. Unregister Service Worker PWA (Pengembangan)
   // -------------------------------------------------------------
-  /*if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-      .then(reg => console.log('SW Registered:', reg.scope))
-      .catch(err => console.error('SW Registration Failed:', err));
-  }*/
-
-  //--------------------------------------------------------------
-  // D. Unregister semua Service Worker PWA yang terpasang
-  //--------------------------------------------------------------
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then((registrations) => {
       for (let registration of registrations) {
@@ -133,4 +113,4 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-});
+}); // Penutup DOMContentLoaded yang tepat
