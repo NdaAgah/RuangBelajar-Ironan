@@ -1,10 +1,16 @@
 // js/app.js
 import { initNeonGrid } from './modules/neonGrid.js';
+import { initIRobotTheme } from './modules/iRobotGrid.js';
 import { fetchFromGAS, sendToGAS, writeLog } from './modules/apiService.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Inisialisasi Canvas Neon
-  initNeonGrid('neonCanvas');
+  //initNeonGrid('neonCanvas');
+  // Ganti parameter kedua dengan 'neural' ATAU 'positronic'
+  initIRobotTheme('neonCanvas', 'neural'); 
+
+  // Contoh jika ingin ganti ke Gelombang Otak Positronik:
+  // initIRobotTheme('neonCanvas', 'positronic');
 
   // 2. URL Web App Google Apps Script Utama
   const GAS_URL = "https://script.google.com/macros/s/AKfycbzu3Bcg-fBX0UcUD7Jb9YDkks-OdLmWayxsvJvrpxLbf4vEYG5vZuS-rK5MEwOx25S3gA/exec";
