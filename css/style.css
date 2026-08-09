@@ -10,11 +10,6 @@
   --bg-modal: rgba(13, 17, 23, 0.70); /* Form 70% Transparency */
 }
 
-/* Override Warna Ketika Mode Positronic Aktif */
-[data-theme="positronic"] {
-  --cyber-cyan: #ff1e3c;
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
