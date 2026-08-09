@@ -38,6 +38,11 @@ body {
   pointer-events: none;
 }
 
+.neon-title {
+   color: #fff;
+   text-shadow: 0 0 10px var(--cyber-cyan);
+}
+
 /* ==========================================
    3. APP WORKSPACE (GRID 75% - 25%)
    ========================================== */
