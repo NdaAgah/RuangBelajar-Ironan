@@ -5,24 +5,32 @@ import { fetchFromGAS, sendToGAS, writeLog } from './modules/apiService.js';
 
 let currentTheme = 'neural'; // State awal
 
-const btnToggle = document.getElementById('btnToggleTheme');
-const themeLabel = document.getElementById('themeLabel');
+//const btnToggle = document.getElementById('btnToggleTheme');
+//const themeLabel = document.getElementById('themeLabel');
 
-btnToggle.addEventListener('click', () => {
+// Fungsi pengganti Tema
+function toggleTheme() {
   stopAnimation();
 
   if (currentTheme === 'neural') {
     currentTheme = 'positronic';
-    if (themeLabel) themeLabel.textContent = 'THEME: POSITRONIC';
     document.documentElement.style.setProperty('--cyber-cyan', '#ff1e3c');
   } else {
     currentTheme = 'neural';
-    if (themeLabel) themeLabel.textContent = 'THEME: NEURAL';
     document.documentElement.style.setProperty('--cyber-cyan', '#00f3ff');
   }
 
   initIRobotTheme('neonCanvas', currentTheme);
-  writeLog(`> Tema dialihkan ke mode: ${currentTheme.toUpperCase()}`);
+  
+  if (typeof writeLog === 'function') {
+    writeLog(`> Tema dialihkan ke mode: ${currentTheme.toUpperCase()}`);
+  }
+}
+
+// Event Listener SEMUA tombol dengan class .btnToggleTheme
+const toggleButtons = document.querySelectorAll('.btnToggleTheme');
+toggleButtons.forEach(button => {
+  button.addEventListener('click', toggleTheme);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
