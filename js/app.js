@@ -27,8 +27,8 @@ function toggleTheme() {
   }
 }
 
-// Event Listener SEMUA tombol dengan class .btnToggleTheme
-const toggleButtons = document.querySelectorAll('.btnToggleTheme');
+// Event Listener SEMUA tombol dengan class .btn-toggle-theme
+const toggleButtons = document.querySelectorAll('.btn-toggle-theme');
 toggleButtons.forEach(button => {
   button.addEventListener('click', toggleTheme);
 });
