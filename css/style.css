@@ -195,6 +195,9 @@ body {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
+.hud-header {
+   background: transparent;
+}
 .hud-header h4 {
   color: #fff;
   font-size: 1rem;
@@ -230,6 +233,9 @@ body {
   border-top: 1px solid rgba(204, 255, 0, 0.2);
 }
 
+.hud-terminal {
+   background: transparent;
+}
 .hud-terminal small {
   color: #8a99ad;
   font-size: 0.75rem;
