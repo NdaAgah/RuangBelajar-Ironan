@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggleButtons = document.querySelectorAll('.btn-toggle-theme');
   toggleButtons.forEach(button => button.addEventListener('click', toggleTheme));
 
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbzu3Bcg-fBX0UcUD7Jb9YDkks-OdLmWayxsvJvrpxLbf4vEYG5vZuS-rK5MEwOx25S3gA/exec";
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbygddwORMDPiUu67o4ecRpHST5U5F72qce7pWy1VYJwbnmrpI0Z0trpwlW4JfywHm-5vw/exec";
 
   // 1. Deklarasikan Helper Render Tabel Pertama
   function renderUserTable(dataRows) {
