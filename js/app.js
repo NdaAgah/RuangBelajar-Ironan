@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   checkConnection();
+  loadUserData();
 
   if (userForm) {
     userForm.addEventListener('submit', async (e) => {
@@ -103,7 +104,46 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // -------------------------------------------------------------
-  // C. Unregister Service Worker PWA (Pengembangan)
+  // C. Fungsi untuk memetakan data array JSON ke tabel HTML
+  // -------------------------------------------------------------
+
+  function renderUserTable(dataRows) {
+    const tableBody = document.getElementById('userTableBody');
+    if (!tableBody) return;
+
+    if (!dataRows || dataRows.length === 0) {
+      tableBody.innerHTML = `<tr><td colspan="4" class="text-center">> Database kosong.</td></tr>`;
+      return;
+    }
+
+    // Susun elemen baris tabel secara dinamis
+    tableBody.innerHTML = dataRows.map(user => {
+      return `
+        <tr>
+          <td><strong>${user.nama || '-'}</strong></td>
+          <td>${user.email || '-'}</td>
+          <td><span class="badge">${user.role || '-'}</span></td>
+          <td><small>${user.timestamp ? new Date(user.timestamp).toLocaleString('id-ID') : '-'}</small></td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // Panggil di dalam alur checkConnection() atau tombol Refresh:
+  async function loadUserData() {
+    writeLog("Mengambil data user terbaru dari Sheets...");
+    const res = await fetchFromGAS(GAS_URL);
+    
+    if (res && res.status !== "ERROR" && Array.isArray(res.data)) {
+      renderUserTable(res.data);
+      writeLog(`> SUCCESS: Tabel diperbarui (${res.data.length} baris).`);
+    } else {
+      writeLog(" Gagal memperbarui tabel.", true);
+    }
+  }
+
+  // -------------------------------------------------------------
+  // D. Unregister Service Worker PWA (Pengembangan)
   // -------------------------------------------------------------
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then((registrations) => {
