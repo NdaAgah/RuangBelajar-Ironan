@@ -73,9 +73,12 @@ body {
 .cyber-header {
   text-align: center;
   border-bottom: 1px solid rgba(0, 243, 255, 0.3);
-  padding-bottom: 10px;
+  padding: 12px 16px; /* Ditambahkan padding atas-bawah agar ruang nafas teks lebih seimbang */
+  background: var(--bg-hud); /* Menggunakan fungsi var() yang benar */
+  backdrop-filter: blur(8px); /* Efek kaca buram transparan */
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 8px; /* Sudut melengkung halus agar serasi dengan kartu lain */
 }
-
 .neon-title {
   font-size: 1.8rem;
   letter-spacing: 4px;
