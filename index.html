@@ -22,12 +22,20 @@
     <section class="main-content-area">
       
       <!-- Header Aplikasi -->
-      <header class="cyber-header">
-        <h1 class="neon-title" data-text="CYBER//CORE">CYBER//CORE</h1>
-        <button id="btnToggleTheme" class="btn-secondary-sm">SWITCH THEME</button>
-        <p class="neon-subtitle">SYSTEM STATUS: <span id="sys-status">ONLINE</span></p>
+      <header class="app-header">
+        <div class="brand-title">
+          <h2>RUANG BELAJAR</h2>
+          <span class="sub-title">v1.0 // PWA CORE</span>
+        </div>
+      
+        <!-- Quick Action Controls -->
+        <div class="header-controls">
+          <button id="btnToggleTheme" class="btn-secondary-sm">
+            <i class="icon-theme">SWITCH CORE</i>
+          </button>
+        </div>
       </header>
-
+      
       <!-- Form Registrasi User (Floating Modal) -->
       <div class="form-card-floating">
         <h3>// REGISTRASI USER</h3>
@@ -59,18 +67,21 @@
     <!-- Panel HUD Sidebar Kanan (25% Desktop) -->
     <aside class="hud-sidebar">
       <div class="hud-header">
-        <h4>RUANG BELAJAR</h4>
-        <p class="status-indicator">⚡ SYSTEM ONLINE</p>
-        <button id="btnFetch" class="btn-secondary-sm">TES SINYAL (📡)</button>
-        <div id="dataOutput" class="log-content"></div>
+        <h4>KENDALI SISTEM</h4>
+        <p class="status-indicator">⚡ CORE ONLINE</p>
+        <button id="btnFetch" class="btn-secondary-sm">(📡)</button>
+        <button id="btnToggleTheme" class="btn-secondary-sm" style="width: 100%; margin-top: 0.5rem;">
+          <span id="themeLabel">(✨)</span>
+        </button>
       </div>
       
       <hr class="hud-divider" />
 
       <div class="hud-terminal">
         <small>// TERMINAL LOGS</small>
+        <div id="dataOutput" class="log-content"></div>
         <div id="logOutput" class="log-content">
-          > Sistem siap. Menunggu aksi...
+          > Sistem siap...
         </div>
       </div>
     </aside>
