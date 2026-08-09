@@ -1,10 +1,47 @@
 // js/app.js
 import { initNeonGrid } from './modules/neonGrid.js';
+import { initIRobotTheme, stopAnimation } from './modules/iRobotGrid.js';
 import { fetchFromGAS, sendToGAS, writeLog } from './modules/apiService.js';
+
+let currentTheme = 'neural'; // State awal
+
+//const btnToggle = document.getElementById('btnToggleTheme');
+//const themeLabel = document.getElementById('themeLabel');
+
+// Fungsi pengganti Tema
+function toggleTheme() {
+  stopAnimation();
+
+  if (currentTheme === 'neural') {
+    currentTheme = 'positronic';
+    document.documentElement.style.setProperty('--cyber-cyan', '#ff1e3c');
+  } else {
+    currentTheme = 'neural';
+    document.documentElement.style.setProperty('--cyber-cyan', '#00f3ff');
+  }
+
+  initIRobotTheme('neonCanvas', currentTheme);
+  
+  if (typeof writeLog === 'function') {
+    writeLog(`> Tema dialihkan ke mode: ${currentTheme.toUpperCase()}`);
+  }
+}
+
+// Event Listener SEMUA tombol dengan class .btn-toggle-theme
+const toggleButtons = document.querySelectorAll('.btn-toggle-theme');
+toggleButtons.forEach(button => {
+  button.addEventListener('click', toggleTheme);
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Inisialisasi Canvas Neon
-  initNeonGrid('neonCanvas');
+  //initNeonGrid('neonCanvas');
+  // Ganti parameter kedua dengan 'neural' ATAU 'positronic'
+  initIRobotTheme('neonCanvas', 'neural'); 
+  //initIRobotTheme('neonCanvas', 'positronic'); 
+
+  // Contoh jika ingin ganti ke Gelombang Otak Positronik:
+  // initIRobotTheme('neonCanvas', 'positronic');
 
   // 2. URL Web App Google Apps Script Utama
   const GAS_URL = "https://script.google.com/macros/s/AKfycbzu3Bcg-fBX0UcUD7Jb9YDkks-OdLmWayxsvJvrpxLbf4vEYG5vZuS-rK5MEwOx25S3gA/exec";
@@ -58,9 +95,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------------
   // C. Inisialisasi Service Worker PWA
   // -------------------------------------------------------------
-  if ('serviceWorker' in navigator) {
+  /*if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
       .then(reg => console.log('SW Registered:', reg.scope))
       .catch(err => console.error('SW Registration Failed:', err));
+  }*/
+
+  //--------------------------------------------------------------
+  // D. Unregister semua Service Worker PWA yang terpasang
+  //--------------------------------------------------------------
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+        console.log('SW Unregistered:', registration);
+      }
+    });
   }
 });
