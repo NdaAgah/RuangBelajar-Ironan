@@ -13,16 +13,6 @@
 /* Override Warna Ketika Mode Positronic Aktif */
 [data-theme="positronic"] {
   --cyber-cyan: #ff1e3c;
-  background: transparent;
-  border: 1px solid var(--cyber-lime);
-  color: var(--cyber-lime);
-  padding: 0.5rem 0.8rem;
-  font-family: inherit;
-  font-size: 0.75rem;
-  font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
 }
 
 * {
