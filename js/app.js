@@ -8,11 +8,6 @@ let currentTheme = 'neural'; // State awal
 //const btnToggle = document.getElementById('btnToggleTheme');
 //const themeLabel = document.getElementById('themeLabel');
 
-/* ---------------------------------------------------------------------
-| URL Deployment Google APss Script                                    |
-......................................................................*/
-const GAS_URL = "https://script.google.com/macros/s/AKfycbzu3Bcg-fBX0UcUD7Jb9YDkks-OdLmWayxsvJvrpxLbf4vEYG5vZuS-rK5MEwOx25S3gA/exec";
-
 // Fungsi pengganti Tema
 function toggleTheme() {
   stopAnimation();
@@ -39,9 +34,20 @@ toggleButtons.forEach(button => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  // -------------------------------------------------------------
+  /* --------------------------------------------------------------------
+  // init IRobot Theme                                                   
+  ......................................................................*/
+  initIRobotTheme('neonCanvas', currentTheme);
+  
+  /* --------------------------------------------------------------------
+  // URL Deployment Google APss Script                                    
+  ......................................................................*/
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbzu3Bcg-fBX0UcUD7Jb9YDkks-OdLmWayxsvJvrpxLbf4vEYG5vZuS-rK5MEwOx25S3gA/exec";
+
+
+  /* --------------------------------------------------------------------
   // A. Fungsionalitas Tes Sinyal API (Tombol Fetch GET)
-  // -------------------------------------------------------------
+  ......................................................................*/
   const btnFetch = document.getElementById('btnFetch');
   const dataOutput = document.getElementById('dataOutput');
 
@@ -106,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
-}
 
   // -------------------------------------------------------------
   // C. Inisialisasi Service Worker PWA
