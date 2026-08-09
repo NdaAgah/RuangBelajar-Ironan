@@ -3,12 +3,10 @@ import { initNeonGrid } from './modules/neonGrid.js';
 import { initIRobotTheme, stopAnimation } from './modules/iRobotGrid.js';
 import { fetchFromGAS, sendToGAS, writeLog } from './modules/apiService.js';
 
-let currentTheme = 'neural'; // State awal
+let currentTheme = 'neural';
 
-// Fungsi pengganti Tema (Boleh tetap di luar)
 function toggleTheme() {
   stopAnimation();
-
   if (currentTheme === 'neural') {
     currentTheme = 'positronic';
     document.documentElement.style.setProperty('--cyber-cyan', '#ff1e3c');
@@ -16,54 +14,41 @@ function toggleTheme() {
     currentTheme = 'neural';
     document.documentElement.style.setProperty('--cyber-cyan', '#00f3ff');
   }
-
   initIRobotTheme('neonCanvas', currentTheme);
-  
   if (typeof writeLog === 'function') {
     writeLog(`> Tema dialihkan ke mode: ${currentTheme.toUpperCase()}`);
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // --------------------------------------------------------------------
-  // Inisialisasi Canvas Theme & Event Listener Switch Theme
-  // --------------------------------------------------------------------
   initIRobotTheme('neonCanvas', currentTheme);
 
-  // Dipindahkan ke DALAM DOMContentLoaded agar tombol ditemukan
   const toggleButtons = document.querySelectorAll('.btn-toggle-theme');
-  toggleButtons.forEach(button => {
-    button.addEventListener('click', toggleTheme);
-  });
+  toggleButtons.forEach(button => button.addEventListener('click', toggleTheme));
 
-  // --------------------------------------------------------------------
-  // URL Deployment Google Apps Script
-  // --------------------------------------------------------------------
   const GAS_URL = "https://script.google.com/macros/s/AKfycbzu3Bcg-fBX0UcUD7Jb9YDkks-OdLmWayxsvJvrpxLbf4vEYG5vZuS-rK5MEwOx25S3gA/exec";
 
-  // --------------------------------------------------------------------
-  // A. Fungsionalitas Tes Sinyal API (Tombol Fetch GET)
-  // --------------------------------------------------------------------
-  const btnFetch = document.getElementById('btnFetch');
-  const dataOutput = document.getElementById('dataOutput');
+  // 1. Deklarasikan Helper Render Tabel Pertama
+  function renderUserTable(dataRows) {
+    const tableBody = document.getElementById('userTableBody');
+    if (!tableBody) return;
 
-  if (btnFetch && dataOutput) {
-    btnFetch.addEventListener('click', async () => {
-      dataOutput.innerText = "> MENSTRANSMISIKAN SINYAL KE GAS...";
-      
-      const result = await fetchFromGAS(GAS_URL);
-      
-      // Tampilkan hasil respon dari GAS ke UI PWA
-      dataOutput.innerText = `> SINYAL DITERIMA:\n${JSON.stringify(result, null, 2)}`;
-    });
+    if (!dataRows || dataRows.length === 0) {
+      tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">> Database kosong.</td></tr>`;
+      return;
+    }
+
+    tableBody.innerHTML = dataRows.map(user => `
+      <tr>
+        <td><strong>${user.nama || '-'}</strong></td>
+        <td>${user.email || '-'}</td>
+        <td><span class="badge">${user.role || '-'}</span></td>
+        <td><small>${user.timestamp ? new Date(user.timestamp).toLocaleString('id-ID') : '-'}</small></td>
+      </tr>
+    `).join('');
   }
 
-  // -------------------------------------------------------------
-  // B. Fungsionalitas Form Entri User (POST ke Google Sheets)
-  // -------------------------------------------------------------
-  const userForm = document.querySelector('form');
-  
-  // Panggil di dalam alur checkConnection() atau tombol Refresh:
+  // 2. Fungsi Load Data
   async function loadUserData() {
     writeLog("Mengambil data user terbaru dari Sheets...");
     const res = await fetchFromGAS(GAS_URL);
@@ -76,29 +61,38 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // 3. Tombol Refresh Manual
+  const btnRefresh = document.getElementById('btnRefreshTable');
+  if (btnRefresh) {
+    btnRefresh.addEventListener('click', loadUserData);
+  }
+
+  // 4. Inisialisasi Koneksi Awal
   async function checkConnection() {
     writeLog("Menghubungkan ke Google Sheets via GET...");
     const res = await fetchFromGAS(GAS_URL);
     
-    if (res.status !== "ERROR") {
+    if (res && res.status !== "ERROR") {
       writeLog(`Respon GET Berhasil! Data diterima.`);
+      if (Array.isArray(res.data)) {
+        renderUserTable(res.data);
+      }
     } else {
-      writeLog(res.message, true);
+      writeLog(res ? res.message : "Koneksi terputus.", true);
     }
-    
-    // Mengambil data User
-    loadUserData();
   }
 
   checkConnection();
 
+  // 5. Submit Form Handler
+  const userForm = document.getElementById('userForm');
   if (userForm) {
     userForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const namaInput = userForm.querySelector('input[placeholder*="Penulis"]');
-      const emailInput = userForm.querySelector('input[type="email"]');
-      const roleSelect = userForm.querySelector('select');
+      const namaInput = document.getElementById('inputNama');
+      const emailInput = document.getElementById('inputEmail');
+      const roleSelect = document.getElementById('selectRole');
 
       const payload = {
         nama: namaInput ? namaInput.value : '',
@@ -112,47 +106,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (result && result.status !== "ERROR") {
         writeLog(" Registrasi berhasil disimpan di Sheets!");
         userForm.reset();
+        loadUserData(); // Auto reload tabel setelah input
       } else {
         writeLog(" Gagal menyimpan data user.", true);
       }
     });
   }
 
-  // -------------------------------------------------------------
-  // C. Fungsi untuk memetakan data array JSON ke tabel HTML
-  // -------------------------------------------------------------
-
-  function renderUserTable(dataRows) {
-    const tableBody = document.getElementById('userTableBody');
-    if (!tableBody) return;
-
-    if (!dataRows || dataRows.length === 0) {
-      tableBody.innerHTML = `<tr><td colspan="4" class="text-center">> Database kosong.</td></tr>`;
-      return;
-    }
-
-    // Susun elemen baris tabel secara dinamis
-    tableBody.innerHTML = dataRows.map(user => {
-      return `
-        <tr>
-          <td><strong>${user.nama || '-'}</strong></td>
-          <td>${user.email || '-'}</td>
-          <td><span class="badge">${user.role || '-'}</span></td>
-          <td><small>${user.timestamp ? new Date(user.timestamp).toLocaleString('id-ID') : '-'}</small></td>
-        </tr>
-      `;
-    }).join('');
-  }
-
-  // -------------------------------------------------------------
-  // D. Unregister Service Worker PWA (Pengembangan)
-  // -------------------------------------------------------------
+  // Service Worker Cleanup
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then((registrations) => {
-      for (let registration of registrations) {
-        registration.unregister();
-        console.log('SW Unregistered:', registration);
-      }
+      for (let registration of registrations) registration.unregister();
     });
   }
-}); // Penutup DOMContentLoaded yang tepat
+});
