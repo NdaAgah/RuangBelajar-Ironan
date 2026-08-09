@@ -58,9 +58,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------------
   // C. Inisialisasi Service Worker PWA
   // -------------------------------------------------------------
-  if ('serviceWorker' in navigator) {
+  /*if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
       .then(reg => console.log('SW Registered:', reg.scope))
       .catch(err => console.error('SW Registration Failed:', err));
+  }*/
+
+  //--------------------------------------------------------------
+  // D. Unregister semua Service Worker PWA yang terpasang
+  //--------------------------------------------------------------
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+        console.log('SW Unregistered:', registration);
+      }
+    });
   }
 });
