@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Inisialisasi Canvas Neon
   //initNeonGrid('neonCanvas');
   // Ganti parameter kedua dengan 'neural' ATAU 'positronic'
-  initIRobotTheme('neonCanvas', 'neural'); 
+  //initIRobotTheme('neonCanvas', 'neural'); 
+  initIRobotTheme('neonCanvas', 'positronic'); 
 
   // Contoh jika ingin ganti ke Gelombang Otak Positronik:
   // initIRobotTheme('neonCanvas', 'positronic');
