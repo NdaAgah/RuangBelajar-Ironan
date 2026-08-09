@@ -63,6 +63,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------------
   const userForm = document.querySelector('form');
   
+  // Panggil di dalam alur checkConnection() atau tombol Refresh:
+  async function loadUserData() {
+    writeLog("Mengambil data user terbaru dari Sheets...");
+    const res = await fetchFromGAS(GAS_URL);
+    
+    if (res && res.status !== "ERROR" && Array.isArray(res.data)) {
+      renderUserTable(res.data);
+      writeLog(`> SUCCESS: Tabel diperbarui (${res.data.length} baris).`);
+    } else {
+      writeLog(" Gagal memperbarui tabel.", true);
+    }
+  }
+
   async function checkConnection() {
     writeLog("Menghubungkan ke Google Sheets via GET...");
     const res = await fetchFromGAS(GAS_URL);
@@ -72,10 +85,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       writeLog(res.message, true);
     }
+    
+    // Mengambil data User
+    loadUserData();
   }
 
   checkConnection();
-  loadUserData();
 
   if (userForm) {
     userForm.addEventListener('submit', async (e) => {
@@ -127,19 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </tr>
       `;
     }).join('');
-  }
-
-  // Panggil di dalam alur checkConnection() atau tombol Refresh:
-  async function loadUserData() {
-    writeLog("Mengambil data user terbaru dari Sheets...");
-    const res = await fetchFromGAS(GAS_URL);
-    
-    if (res && res.status !== "ERROR" && Array.isArray(res.data)) {
-      renderUserTable(res.data);
-      writeLog(`> SUCCESS: Tabel diperbarui (${res.data.length} baris).`);
-    } else {
-      writeLog(" Gagal memperbarui tabel.", true);
-    }
   }
 
   // -------------------------------------------------------------
