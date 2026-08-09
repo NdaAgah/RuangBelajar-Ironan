@@ -1,7 +1,28 @@
 // js/app.js
 import { initNeonGrid } from './modules/neonGrid.js';
-import { initIRobotTheme } from './modules/iRobotGrid.js';
+import { initIRobotTheme, stopAnimation } from './modules/iRobotGrid.js';
 import { fetchFromGAS, sendToGAS, writeLog } from './modules/apiService.js';
+
+let currentTheme = 'neural'; // State awal
+
+btnToggle.addEventListener('click', () => {
+  // 1. Matikan animasi yang sedang berjalan
+  stopAnimation();
+
+  // 2. Ganti state tema
+  if (currentTheme === 'neural') {
+    currentTheme = 'positronic';
+    document.documentElement.style.setProperty('--cyber-cyan', '#ff1e3c'); // Beri aksen merah untuk I, Robot
+  } else {
+    currentTheme = 'neural';
+    document.documentElement.style.setProperty('--cyber-cyan', '#00f3ff'); // Kembali ke Cyan
+  }
+
+  // 3. Inisialisasi ulang dengan tema baru
+  initIRobotTheme('neonCanvas', currentTheme);
+  
+  writeLog(`> Tema dialihkan ke mode: ${currentTheme.toUpperCase()}`);
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Inisialisasi Canvas Neon
