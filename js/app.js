@@ -8,6 +8,11 @@ let currentTheme = 'neural'; // State awal
 //const btnToggle = document.getElementById('btnToggleTheme');
 //const themeLabel = document.getElementById('themeLabel');
 
+/* ---------------------------------------------------------------------
+| URL Deployment Google APss Script                                    |
+......................................................................*/
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzu3Bcg-fBX0UcUD7Jb9YDkks-OdLmWayxsvJvrpxLbf4vEYG5vZuS-rK5MEwOx25S3gA/exec";
+
 // Fungsi pengganti Tema
 function toggleTheme() {
   stopAnimation();
@@ -34,18 +39,6 @@ toggleButtons.forEach(button => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Inisialisasi Canvas Neon
-  //initNeonGrid('neonCanvas');
-  // Ganti parameter kedua dengan 'neural' ATAU 'positronic'
-  initIRobotTheme('neonCanvas', 'neural'); 
-  //initIRobotTheme('neonCanvas', 'positronic'); 
-
-  // Contoh jika ingin ganti ke Gelombang Otak Positronik:
-  // initIRobotTheme('neonCanvas', 'positronic');
-
-  // 2. URL Web App Google Apps Script Utama
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbzu3Bcg-fBX0UcUD7Jb9YDkks-OdLmWayxsvJvrpxLbf4vEYG5vZuS-rK5MEwOx25S3gA/exec";
-
   // -------------------------------------------------------------
   // A. Fungsionalitas Tes Sinyal API (Tombol Fetch GET)
   // -------------------------------------------------------------
@@ -66,31 +59,54 @@ document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------------
   // B. Fungsionalitas Form Entri User (POST ke Google Sheets)
   // -------------------------------------------------------------
-  const userForm = document.getElementById('userForm');
-
-  if (userForm) {
-    userForm.addEventListener('submit', async (event) => {
-      event.preventDefault(); // Mencegah reload halaman
-
-      const payload = {
-        nama: document.getElementById('inputNama').value,
-        email: document.getElementById('inputEmail').value,
-        role: document.getElementById('selectRole').value
-      };
-
-      writeLog("Form disubmit oleh pengguna.");
+    // 1. Dapatkan Elemen Form dan Input
+    const userForm = document.querySelector('form');
+    
+    // 2. KONEKSI AWAIL (GET Data dari Google Sheets)
+    async function checkConnection() {
+      writeLog("Menghubungkan ke Google Sheets via GET...");
+      const res = await fetchFromGAS(GAS_URL);
       
-      // Kirim data ke Google Apps Script
-      const result = await sendToGAS(GAS_URL, payload);
-
-      if (result.status === "SUCCESS") {
-        writeLog("BERHASIL: Data pengguna tercatat di spreadsheet!");
-        userForm.reset(); // Kosongkan form
+      if (res.status !== "ERROR") {
+        writeLog(`Respon GET Berhasil! Data diterima.`);
       } else {
-        writeLog("GAGAL: Data tidak tersimpan di backend.", true);
+        writeLog(res.message, true);
       }
-    });
-  }
+    }
+  
+    // Jalankan pemeriksaan GET saat aplikasi dimuat
+    checkConnection();
+  
+    // 3. EVENT HANDLER (POST Data dari Form)
+    if (userForm) {
+      userForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Mencegah reload halaman
+        
+        // Ambil nilai dari input form
+        const namaInput = userForm.querySelector('input[placeholder*="Penulis"]');
+        const emailInput = userForm.querySelector('input[type="email"]');
+        const roleSelect = userForm.querySelector('select');
+  
+        const payload = {
+          nama: namaInput ? namaInput.value : '',
+          email: emailInput ? emailInput.value : '',
+          role: roleSelect ? roleSelect.value : '',
+          timestamp: new Date().toISOString()
+        };
+  
+        // Kirim payload ke GAS
+        const result = await sendToGAS(GAS_URL, payload);
+  
+        if (result && result.status !== "ERROR") {
+          writeLog(" Registrasi berhasil disimpan di Sheets!");
+          userForm.reset(); // Bersihkan form
+        } else {
+          writeLog(" Gagal menyimpan data user.", true);
+        }
+      });
+    }
+  });
+}
 
   // -------------------------------------------------------------
   // C. Inisialisasi Service Worker PWA
