@@ -6,7 +6,7 @@
   --cyber-cyan: #00f3ff;    /* Cyber Cyan Neon */
   --cyber-pink: #ff0055;    /* Magenta Accent */
   --bg-color: #08090d;      /* Deep Dark BG */
-  --bg-hud: rgba(10, 15, 25, 0.25);   /* HUD 25% Transparency */
+  --bg-hud: rgba(10, 15, 25, 0.50);   /* HUD 50% Transparency */
   --bg-modal: rgba(13, 17, 23, 0.70); /* Form 70% Transparency */
 }
 
