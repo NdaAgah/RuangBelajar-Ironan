@@ -144,3 +144,8 @@ function drawPositronicWaves(ctx) {
     ctx.stroke();
   }
 }
+
+// Stop animasi iRobotGrid
+export function stopAnimation() {
+  if (animationId) cancelAnimationFrame(animationId);
+}
