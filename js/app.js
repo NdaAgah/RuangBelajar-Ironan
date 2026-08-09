@@ -14,10 +14,10 @@ function toggleTheme() {
 
   if (currentTheme === 'neural') {
     currentTheme = 'positronic';
-    document.documentElement.style.setProperty('--cyber-cyan', '#ff1e3c');
+    document.documentElement.style.setProperty('data-theme', 'positronic');
   } else {
     currentTheme = 'neural';
-    document.documentElement.style.setProperty('--cyber-cyan', '#00f3ff');
+    document.documentElement.style.setProperty('data-theme', 'neural');
   }
 
   initIRobotTheme('neonCanvas', currentTheme);
