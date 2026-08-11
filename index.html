@@ -62,6 +62,32 @@
         </form>
       </div>
 
+      <!-- Container Tabel HUD -->
+      <section class="hud-card table-card">
+        <div class="hud-card-header">
+          <h3>// DATABASE USER (LIVE)</h3>
+          <hr>
+          <button id="btnRefreshTable" class="btn-secondary-sm">↻ REFRESH</button>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="hud-table">
+            <thead>
+              <tr>
+                <th>NAMA LENGKAP</th>
+                <th>EMAIL</th>
+                <th>PERAN</th>
+                <th>TIMESTAMP</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody">
+              <tr>
+                <td colspan="4" class="text-center">> Menunggu sinyal data...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </section>
 
     <!-- Panel HUD Sidebar Kanan (25% Desktop) -->

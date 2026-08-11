@@ -104,7 +104,19 @@ body {
 }
 
 /* ==========================================
-   5. FORM CARD FLOATING (70% Transparansi)
+   5. HUD Card
+   ========================================== */
+.hud-card {
+  background: rgba(10, 15, 30, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 243, 255, 0.2);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-top: 1.5rem; /* Memberikan jarak atas otomatis untuk setiap card */
+}
+
+/* ==========================================
+   6. FORM CARD FLOATING (70% Transparansi)
    ========================================== */
 .form-card-floating {
   background: var(--bg-modal);
@@ -185,7 +197,47 @@ body {
 }
 
 /* ==========================================
-   6. HUD SIDEBAR (25% Transparansi)
+   7. Table HUD Cyberpunk
+   ========================================== */
+.table-card {
+  margin-bottom: 2rem; /* Jarak bawah agar tidak terlalu mepet ke footer */
+}
+
+.hud-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.hud-table th {
+  background: rgba(0, 243, 255, 0.1);
+  color: var(--cyber-cyan);
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 2px solid var(--cyber-cyan);
+  text-shadow: 0 0 5px var(--cyber-cyan);
+}
+
+.hud-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.hud-table tbody tr:hover {
+  background: rgba(0, 243, 255, 0.05);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* ==========================================
+   8. HUD SIDEBAR (25% Transparansi)
    ========================================== */
 .hud-sidebar {
   background: var(--bg-hud);
@@ -256,7 +308,9 @@ body {
   max-height: calc(100vh - 200px);
 }
 
-/* Custom Scrollbar Neon */
+/* ==========================================
+   9. Custom Scrollbar Neon
+   ========================================== */
 .log-content::-webkit-scrollbar {
   width: 6px;
 }
