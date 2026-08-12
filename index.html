@@ -17,99 +17,25 @@
 
   <!-- Workspace Utama Application Shell -->
   <main class="app-workspace">
-    
-    <!-- Area Utama Kiri (75% Desktop) -->
-    <section class="main-content-area">
-      
+
+    <!-- Navigasai -->
+    <section class="HeaderNav">
       <!-- Header Aplikasi -->
       <header class="cyber-header">
         <div class="brand-title">
           <h2 class="neon-tile">RUANG BELAJAR</h2>
-          <p class="neon-subtitle">v1.0 // PWA CORE</p>
-        </div>
-      
-        <!-- Quick Action Controls -->
-        <div class="header-controls">
-          <button id="btnToggleTheme" class="btn-toggle-theme btn-secondary-sm">
-            <i class="icon-theme">SWITCH CORE</i>
-          </button>
+          <p class="neon-subtitle">Sektor Siber v1.0 // <b><i>PWA CORE Tuan Penulis</i></b></p>
         </div>
       </header>
-      
-      <!-- Form Registrasi User (Floating Modal) -->
-      <div class="form-card-floating">
-        <h3>// REGISTRASI USER</h3>
-        <form id="userForm" class="user-form">
-          <div class="form-group">
-            <label for="inputNama">NAMA LENGKAP</label>
-            <input type="text" id="inputNama" placeholder="Contoh: Penulis Eksentrik" required />
-          </div>
-          
-          <div class="form-group">
-            <label for="inputEmail">ALAMAT EMAIL</label>
-            <input type="email" id="inputEmail" placeholder="nama@email.com" required />
-          </div>
-          
-          <div class="form-group">
-            <label for="selectRole">PERAN (ROLE)</label>
-            <select id="selectRole">
-              <option value="Siswa">Siswa</option>
-              <option value="Pengajar">Pengajar</option>
-            </select>
-          </div>
+    </section>
 
-          <button type="submit" id="btnSubmit" class="btn-primary">KIRIM DATA USER</button>
-        </form>
-      </div>
-
-      <!-- Container Tabel HUD -->
-      <section class="hud-card table-card">
-        <div class="hud-card-header">
-          <h3>// DATABASE USER (LIVE)</h3>
-          <hr>
-          <button id="btnRefreshTable" class="btn-secondary-sm">↻ REFRESH</button>
-        </div>
-        
-        <div class="table-responsive">
-          <table class="hud-table">
-            <thead>
-              <tr>
-                <th>NAMA LENGKAP</th>
-                <th>EMAIL</th>
-                <th>PERAN</th>
-                <th>TIMESTAMP</th>
-              </tr>
-            </thead>
-            <tbody id="userTableBody">
-              <tr>
-                <td colspan="4" class="text-center">> Menunggu sinyal data...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+    <!-- Area Utama Kiri (75% Desktop) -->
+    <section class="main-content-area">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
     </section>
 
     <!-- Panel HUD Sidebar Kanan (25% Desktop) -->
     <aside class="hud-sidebar">
-      <div class="hud-header">
-        <h4>KENDALI SISTEM</h4>
-        <p class="status-indicator">⚡ CORE ONLINE</p>
-        <button id="btnFetch" class="btn-secondary-sm"> 📡 </button>
-        <button id="btnToggleTheme" class="btn-toggle-theme btn-secondary-sm"> ✨ </button>
-      </div>
-      
-      <hr class="hud-divider" />
-
-      <div class="hud-terminal">
-        <small>// TERMINAL LOGS</small>
-        <div id="dataOutput" class="log-content"></div>
-        <div id="logOutput" class="log-content">
-          > Sistem siap...
-        </div>
-      </div>
     </aside>
-
   </main>
 
   <!-- Script Modular (ES Module) -->

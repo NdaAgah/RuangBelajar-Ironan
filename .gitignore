@@ -1,0 +1,5 @@
+# Abaikan file config spesifik
+js/modules/config.js
+
+# Abaikan seting editor VScode lokal
+.vscode/
