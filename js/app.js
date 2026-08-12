@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const GAS_URL = CONFIG.GAS_URL;
 
 
-  const mainContent = document.querySelector('.maint-content-area');
+  const mainContent = document.querySelector('.main-content-area');
   const hudSidebar = document.querySelector('.hud-sidebar');
   const toggleButtons = document.querySelectorAll('.btn-toggle-theme');
     
