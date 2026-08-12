@@ -5,10 +5,9 @@ import { CONFIG } from './modules/config.js';
 import { initNeonGrid } from './modules/neonGrid.js';
 import { initIRobotTheme, stopAnimation } from './modules/iRobotGrid.js';
 import { fetchFromGAS, sendToGAS, writeLog } from './modules/apiService.js';
-import { logPanel, renderLogPanel } from './modules/components/logPanel.js';
-import { registrasiForm, renderFormRegistrasi } from "./modules/components/registrasiForm.js";
-import { dataSiswaTable } from ".modules/components/dataSiswaTable";
-import { renderDataSiswaTable } from './modules/components/dataSiswaTable.js';
+import { renderLogPanel } from './modules/components/logPanel.js';
+import { renderFormRegistrasi, initFormRegistrasiHandler } from "./modules/components/registrasiForm.js";
+import { renderDataSiswaTable, initDataSiswaTable } from ".modules/components/dataSiswaTable";
 
 /* >>>>>
 // Deklarasi FUNGSI tombol pengalih TEMA
@@ -42,14 +41,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const hudSidebar = document.querySelector('.hud-sidebar');
   const toggleButtons = document.querySelectorAll('.btn-toggle-theme');
     
-  if (hudSidebar) {
-    hudSidebar.innerHTML = renderLogPanel();
-  }
-
   if (mainContet) {
     mainContent.innerHTML = renderFormRegistrasi() + renderDataSiswaTable();
   }
 
+  if (hudSidebar) {
+    hudSidebar.innerHTML = renderLogPanel();
+  }
+  
+  initFormRegistrasiHandler();
+  
   toggleButtons.forEach(button => button.addEventListener('click', toggleTheme));
   
   checkConnection();
