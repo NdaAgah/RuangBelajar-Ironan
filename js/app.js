@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const hudSidebar = document.querySelector('.hud-sidebar');
   const toggleButtons = document.querySelectorAll('.btn-toggle-theme');
     
-  if (mainContet) {
+  if (mainContent) {
     mainContent.innerHTML = renderFormRegistrasi() + renderDataSiswaTable();
   }
 
@@ -50,7 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   initFormRegistrasiHandler();
-  
+  initDataSiswaTable();
+
   toggleButtons.forEach(button => button.addEventListener('click', toggleTheme));
   
   checkConnection();
