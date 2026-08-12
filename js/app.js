@@ -7,7 +7,7 @@ import { initIRobotTheme, stopAnimation } from './modules/iRobotGrid.js';
 import { fetchFromGAS, sendToGAS, writeLog } from './modules/apiService.js';
 import { renderLogPanel } from './modules/components/logPanel.js';
 import { renderFormRegistrasi, initFormRegistrasiHandler } from "./modules/components/registrasiForm.js";
-import { renderDataSiswaTable, initDataSiswaTable } from ".modules/components/dataSiswaTable";
+import { renderDataSiswaTable, initDataSiswaTable, loadUserData,  } from ".modules/components/dataSiswaTable";
 
 /* >>>>>
 // Deklarasi FUNGSI tombol pengalih TEMA
@@ -34,6 +34,7 @@ function toggleTheme() {
 <<<<< */
 document.addEventListener('DOMContentLoaded', () => {
   initIRobotTheme('neonCanvas', currentTheme);
+  writeLog(`> initRobotTheme berhasil`);
   const GAS_URL = CONFIG.GAS_URL;
 
 
@@ -43,15 +44,23 @@ document.addEventListener('DOMContentLoaded', () => {
     
   if (mainContent) {
     mainContent.innerHTML = renderFormRegistrasi() + renderDataSiswaTable();
+    writeLog(`Main Content Terisi`);
   }
 
   if (hudSidebar) {
     hudSidebar.innerHTML = renderLogPanel();
+    writeLog(`Sidebar Terisi`);
   }
   
   initFormRegistrasiHandler();
+  writeLog(`Handler aktif`);
   initDataSiswaTable();
-
+ 
+  // 3. Tombol Refresh Manual
+  const btnRefresh = document.getElementById('btnRefreshTable');
+    if (btnRefresh) {
+      btnRefresh.addEventListener('click', loadUserData);
+    }
   toggleButtons.forEach(button => button.addEventListener('click', toggleTheme));
   
   checkConnection();

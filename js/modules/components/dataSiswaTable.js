@@ -69,12 +69,6 @@ async function loadUserData() {
     }
 }
 
-// 3. Tombol Refresh Manual
-const btnRefresh = document.getElementById('btnRefreshTable');
-  if (btnRefresh) {
-    btnRefresh.addEventListener('click', loadUserData);
-  }
-
 // 4. Inisialisasi Koneksi Awal
 async function checkConnection() {
     writeLog("Menghubungkan ke Google Sheets via GET...");
