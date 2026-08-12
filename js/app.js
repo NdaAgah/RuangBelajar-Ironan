@@ -7,7 +7,7 @@ import { initIRobotTheme, stopAnimation } from './modules/iRobotGrid.js';
 import { fetchFromGAS, sendToGAS, writeLog } from './modules/apiService.js';
 import { renderLogPanel } from './modules/components/logPanel.js';
 import { renderFormRegistrasi, initFormRegistrasiHandler } from "./modules/components/registrasiForm.js";
-import { renderDataSiswaTable, initDataSiswaTable, loadUserData,  } from ".modules/components/dataSiswaTable";
+import { renderDataSiswaTable, initDataSiswaTable, loadUserData,  } from "./modules/components/dataSiswaTable";
 
 /* >>>>>
 // Deklarasi FUNGSI tombol pengalih TEMA
