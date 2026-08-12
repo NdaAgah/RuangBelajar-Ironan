@@ -1,7 +1,7 @@
 /* >>>>>
 // IMPORT pustaka fungsi yang dibutuhkan dari MODULES dan COMPONENTS
 <<<<< */
-import { CONFIG } from './modules/config.js';
+import { CONFIG } from './modules/config';
 import { initNeonGrid } from './modules/neonGrid.js';
 import { initIRobotTheme, stopAnimation } from './modules/iRobotGrid.js';
 import { fetchFromGAS, sendToGAS, writeLog } from './modules/apiService.js';
