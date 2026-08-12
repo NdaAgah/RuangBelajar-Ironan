@@ -47,7 +47,7 @@
     function debugLog(message) {
       const headerNav = document.querySelector('.header-nav-debug') || document.querySelector('header');
       if (headerNav) {
-        headerNav.innerText =+ `[SYS_LOG]: ${message}`;
+        headerNav.innerHTML = headerNav.innerHTML + `[SYS_LOG]: ${message}`;
       }
     }
 
