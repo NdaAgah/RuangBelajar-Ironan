@@ -7,8 +7,7 @@
 
 export function renderFormRegistrasi() {
   return
-  `
-    <div class="form-card-floating">
+  `<div class="form-card-floating">
       <h3>// REGISTRASI USER</h3>
       <form id="userForm" class="user-form">
         <div class="form-group">
