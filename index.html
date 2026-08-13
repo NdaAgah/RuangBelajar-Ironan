@@ -8,6 +8,11 @@
   <!-- PWA & Theme -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0d0e15">
+  <!-- Eruda Mobile Console & Network Inspector -->
+  <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+  <script>
+    eruda.init();
+  </script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -76,6 +81,19 @@
         }
       }
     });
+  </script>
+  
+  <script>
+    // Cek apakah aplikasi berjalan di Vercel Preview/Development
+    const isVercelPreview = window.location.hostname.includes('vercel.app') && 
+                          !window.location.hostname.includes('domain-produksi-anda.com');
+
+    if (isVercelPreview) {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/eruda';
+      script.onload = () => eruda.init();
+      document.head.appendChild(script);
+    }
   </script>
 </body>
 </html>
