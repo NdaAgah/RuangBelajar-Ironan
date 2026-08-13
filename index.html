@@ -43,39 +43,37 @@
   <!-- Script Modular (ES Module) -->
   <script type="module" src="js/app.js"></script>
   <script>
-    // Helper untuk menulis log langsung ke UI Header
+    // Helper untuk menumpuk log (tidak menimpa teks sebelumnya)
     function debugLog(message) {
       const headerNav = document.querySelector('.header-nav-debug') || document.querySelector('header');
       if (headerNav) {
-        headerNav.innerHTML = headerNav.innerHTML + `[SYS_LOG]: ${message}`;
+        // Menggunakan += agar log menumpuk secara berurutan
+        headerNav.innerHTML += `<div style="font-size: 11px; color: #ff5555;">> ${message}</div>`;
       }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      debugLog('1. DOM Ready, initializing imports...');
-      debugLog(`Type of renderForm: ${typeof renderFormRegistrasi}`);
+      debugLog('1. Check import: ' + typeof renderFormRegistrasi);
 
       try {
         const mainContent = document.querySelector('.main-content-area');
-        const hudSidebar = document.querySelector('.hud-sidebar');
         
-        debugLog('2. Target selectors found. Rendering components...');
+        debugLog('2. Memanggil renderFormRegistrasi()...');
+        const htmlForm = renderFormRegistrasi(); 
+        debugLog('3. Form HTML berhasil dibuat!');
 
         if (mainContent) {
-          mainContent.innerHTML = renderFormRegistrasi() + renderDataSiswaTable();
+          mainContent.innerHTML = htmlForm;
+          debugLog('4. Injeksi HTML sukses!');
         }
-        if (hudSidebar) {
-          hudSidebar.innerHTML = renderLogPanel();
-        }
-
-        debugLog('3. Render complete! Initializing handlers...');
-        
-        initFormRegistrasiHandler();
-        debugLog('4. System fully online.');
-
       } catch (err) {
-        // Menangkap runtime error dan menampilkan pesan error langsung ke header
-        debugLog(`ERROR: ${err.message}`);
+        // Menampilkan pesan error LENGKAP beserta baris penyebabnya (stack trace)
+        debugLog(`CRITICAL ERROR: ${err.message}`);
+        if (err.stack) {
+          // Mengambil baris pertama dari stack trace
+          const stackLine = err.stack.split('\n')[1] || '';
+          debugLog(`AT: ${stackLine.trim()}`);
+        }
       }
     });
   </script>
