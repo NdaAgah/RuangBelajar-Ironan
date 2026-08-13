@@ -41,15 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const mainContent = document.querySelector('.main-content-area');
   const hudSidebar = document.querySelector('.hud-sidebar');
   const toggleButtons = document.querySelectorAll('.btn-toggle-theme');
-    
-  if (mainContent) {
-    mainContent.innerHTML = renderFormRegistrasi() + renderDataSiswaTable();
-    writeLog(`Main Content Terisi`);
-  }
 
   if (hudSidebar) {
     hudSidebar.innerHTML = renderLogPanel();
     writeLog(`Sidebar Terisi`);
+  }
+  
+  if (mainContent) {
+    mainContent.innerHTML = renderFormRegistrasi() + renderDataSiswaTable();
+    writeLog(`Main Content Terisi`);
   }
   
   initFormRegistrasiHandler();
