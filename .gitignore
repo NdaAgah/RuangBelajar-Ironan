@@ -1,7 +1,6 @@
-# Abaikan file / folder
-api/
-js/main.js
+# Abaikan file envVar
+.env
+.env.local
 
 # Abaikan seting editor VScode lokal
 .vscode/
-jsconfig.json
