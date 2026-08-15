@@ -211,82 +211,82 @@ const App = new USRCore();
 document.addEventListener('DOMContentLoaded', () => {
     App.init();
     App.log('INFO', 'Auto-launching VERVAL Modal on system startup...');
-    //App.openModal('VERVAL SEKTOR SIBER', renderVervalForm, false);
-});
+    App.openModal('VERVAL SEKTOR SIBER', renderVervalForm, true);
 
-// 2. Inisialisasi Canvas Background Animasi
-const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
+    // 2. Inisialisasi Canvas Background Animasi
+    const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
 
-/* ==========================================================================
-REGISTRASI MODUL
-========================================================================== */
+    /* ==========================================================================
+    REGISTRASI MODUL
+    ========================================================================== */
 
-// Modul 1: System Dashboard
-// Modul Dashboard dengan Tombol Pemicu Modal
-/*
-App.registerModule('verval', 'Verval', (core) => {
-    if (bgCanvas) bgCanvas.setMode('neural');
+    // Modul 1: System Dashboard
+    // Modul Dashboard dengan Tombol Pemicu Modal
+    /*
+    App.registerModule('verval', 'Verval', (core) => {
+        if (bgCanvas) bgCanvas.setMode('neural');
 
-    const container = document.createElement('div');
-    container.className = 'usr-card';
-    container.innerHTML = `
-        <h2 class="usr-card-title">VERVAL SEKTOR SIBER</h2>
-        <p style="margin-bottom: 16px; color: var(--usr-text-muted);">
-            Klik tombol di bawah untuk membuka form verifikasi keanggotaan Sektor Siber.
-        </p>
-        <button id="btnOpenVerval" class="usr-nav-btn" style="background: var(--usr-neon-cyan); color: #000; font-weight: bold;">
-            Buka Form VERVAL
-        </button>
-    `;
+        const container = document.createElement('div');
+        container.className = 'usr-card';
+        container.innerHTML = `
+            <h2 class="usr-card-title">VERVAL SEKTOR SIBER</h2>
+            <p style="margin-bottom: 16px; color: var(--usr-text-muted);">
+                Klik tombol di bawah untuk membuka form verifikasi keanggotaan Sektor Siber.
+            </p>
+            <button id="btnOpenVerval" class="usr-nav-btn" style="background: var(--usr-neon-cyan); color: #000; font-weight: bold;">
+                Buka Form VERVAL
+            </button>
+        `;
 
-    container.querySelector('#btnOpenVerval').addEventListener('click', () => {
-        core.openModal('VERVAL SEKTOR SIBER', renderVervalForm, false);
+        container.querySelector('#btnOpenVerval').addEventListener('click', () => {
+            core.openModal('VERVAL SEKTOR SIBER', renderVervalForm, false);
+        });
+
+        return container;
+    });*/
+
+    App.registerModule('dashboard', 'Dashboard', (core) => {
+        if (bgCanvas) bgCanvas.setMode('neural');
+
+        const container = document.createElement('div');
+        container.className = 'usr-card';
+        container.innerHTML = `
+            <h2 class="usr-card-title">Three Laws Compliance Monitor</h2>
+            <p style="margin-bottom: 12px; color: var(--usr-text-muted);">
+                Sistem dalam kondisi normal. Seluruh unit terhubung ke server pusat USR.
+            </p>
+            <button id="btnDiagnostic" class="usr-nav-btn">
+                Jalankan Diagnostik
+            </button>
+        `;
+
+        container.querySelector('#btnDiagnostic').addEventListener('click', () => {
+            core.log('INFO', 'Running Diagnostic Routine...');
+            core.log('INFO', 'Diagnostic Complete: Integrity 100%.');
+        });
+
+        return container;
     });
 
-    return container;
-});*/
+    // Modul 2: Security Audit
+    App.registerModule('security', 'Keamanan', (core) => {
+        if (bgCanvas) bgCanvas.setMode('positronic');
+        
+        const container = document.createElement('div');
+        container.className = 'usr-card';
+        container.style.borderLeftColor = 'var(--usr-danger)';
+        container.innerHTML = `
+            <h2 class="usr-card-title" style="color: var(--usr-danger);">Pengaturan Akses Keamanan</h2>
+            <p style="margin-bottom: 12px;">Monitoring Protokol VIKI & Kontrol Otentikasi.</p>
+            <button id="btnAlert" class="usr-nav-btn" style="border-color: var(--usr-danger); color: var(--usr-danger);">
+                Simulasi Pelanggaran
+            </button>
+        `;
 
-App.registerModule('dashboard', 'Dashboard', (core) => {
-    if (bgCanvas) bgCanvas.setMode('neural');
+        container.querySelector('#btnAlert').addEventListener('click', () => {
+            core.log('SEC', 'ALERT: Deteksi akses tidak dikenal pada Node 04!');
+        });
 
-    const container = document.createElement('div');
-    container.className = 'usr-card';
-    container.innerHTML = `
-        <h2 class="usr-card-title">Three Laws Compliance Monitor</h2>
-        <p style="margin-bottom: 12px; color: var(--usr-text-muted);">
-            Sistem dalam kondisi normal. Seluruh unit terhubung ke server pusat USR.
-        </p>
-        <button id="btnDiagnostic" class="usr-nav-btn">
-            Jalankan Diagnostik
-        </button>
-    `;
-
-    container.querySelector('#btnDiagnostic').addEventListener('click', () => {
-        core.log('INFO', 'Running Diagnostic Routine...');
-        core.log('INFO', 'Diagnostic Complete: Integrity 100%.');
-    });
-
-    return container;
-});
-
-// Modul 2: Security Audit
-App.registerModule('security', 'Keamanan', (core) => {
-    if (bgCanvas) bgCanvas.setMode('positronic');
-    
-    const container = document.createElement('div');
-    container.className = 'usr-card';
-    container.style.borderLeftColor = 'var(--usr-danger)';
-    container.innerHTML = `
-        <h2 class="usr-card-title" style="color: var(--usr-danger);">Pengaturan Akses Keamanan</h2>
-        <p style="margin-bottom: 12px;">Monitoring Protokol VIKI & Kontrol Otentikasi.</p>
-        <button id="btnAlert" class="usr-nav-btn" style="border-color: var(--usr-danger); color: var(--usr-danger);">
-            Simulasi Pelanggaran
-        </button>
-    `;
-
-    container.querySelector('#btnAlert').addEventListener('click', () => {
-        core.log('SEC', 'ALERT: Deteksi akses tidak dikenal pada Node 04!');
-    });
-
-    return container;
+        return container;
+    });    
 });

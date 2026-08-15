@@ -20,7 +20,7 @@ export function renderVervalForm(core) {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const GAS_ENDPOINT = 'https://ruangbelajar-ironan.vercel.app/api/verval';
+        const GAS_ENDPOINT_URL = core.config.gasEndpointUrl;
         const submitBtn = form.querySelector('#btnSubmit');
         const statusBox = form.querySelector('#statusBox');
         const nama = form.querySelector('#inputNama').value.trim();
