@@ -1,0 +1,7 @@
+# Abaikan file / folder
+api/
+js/main.js
+
+# Abaikan seting editor VScode lokal
+.vscode/
+jsconfig.json

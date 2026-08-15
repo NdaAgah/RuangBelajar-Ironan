@@ -1,118 +1,60 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CyberCore PWA - Ruang Belajar</title>
-  
-  <!-- PWA & Theme -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0d0e15">
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USR System Interface v1.0 // Sektor Siber Tuan Penulis</title>
+    <link rel="stylesheet" href="./css/usrrobotica.css">
 </head>
 <body>
+    <canvas id="neuralPositronic"></canvas>
 
-  <!-- Canvas Background Neon (Latar Paling Belakang) -->
-  <canvas id="neonCanvas"></canvas>
-
-  <!-- Workspace Utama Application Shell -->
-  <main class="app-workspace">
-    
-    <!-- Area Utama Kiri (75% Desktop) -->
-    <section class="main-content-area">
-      
-      <!-- Header Aplikasi -->
-      <header class="cyber-header">
-        <div class="brand-title">
-          <h2 class="neon-tile">RUANG BELAJAR</h2>
-          <p class="neon-subtitle">v1.0 // PWA CORE</p>
+    <!-- 1. HEADER -->
+    <header class="usr-header">
+        <div class="usr-brand">
+            <span>RUANG BELAJAR I.Ronan</span>
+            <span class="usr-brand-badge"><small>USR OS adapt by Tuan Penulis & Prof. Gemini</small></span>
         </div>
-      
-        <!-- Quick Action Controls -->
-        <div class="header-controls">
-          <button id="btnToggleTheme" class="btn-toggle-theme btn-secondary-sm">
-            <i class="icon-theme">SWITCH CORE</i>
-          </button>
+        <nav class="usr-nav" id="usrNav">
+            <!-- Navigasi Modul Diisi Secara Dinamis -->
+        </nav>
+        <div class="usr-status">
+            <div class="usr-status-dot"></div>
+            <span>SYSTEM ONLINE</span>
         </div>
-      </header>
-      
-      <!-- Form Registrasi User (Floating Modal) -->
-      <div class="form-card-floating">
-        <h3>// REGISTRASI USER</h3>
-        <form id="userForm" class="user-form">
-          <div class="form-group">
-            <label for="inputNama">NAMA LENGKAP</label>
-            <input type="text" id="inputNama" placeholder="Contoh: Penulis Eksentrik" required />
-          </div>
-          
-          <div class="form-group">
-            <label for="inputEmail">ALAMAT EMAIL</label>
-            <input type="email" id="inputEmail" placeholder="nama@email.com" required />
-          </div>
-          
-          <div class="form-group">
-            <label for="selectRole">PERAN (ROLE)</label>
-            <select id="selectRole">
-              <option value="Siswa">Siswa</option>
-              <option value="Pengajar">Pengajar</option>
-            </select>
-          </div>
+    </header>
 
-          <button type="submit" id="btnSubmit" class="btn-primary">KIRIM DATA USER</button>
-        </form>
-      </div>
+    <!-- 2. RUANG KERJA UTAMA -->
+    <main class="usr-workspace" id="usrWorkspace">
+        <!-- Konten Modul Aktif Ditampilkan Di Sini -->
+    </main>
 
-      <!-- Container Tabel HUD -->
-      <section class="hud-card table-card">
-        <div class="hud-card-header">
-          <h3>// DATABASE USER (LIVE)</h3>
-          <hr>
-          <button id="btnRefreshTable" class="btn-secondary-sm">↻ REFRESH</button>
+    <!-- 3. LOG PANEL -->
+    <footer class="usr-log-panel" id="usrLogPanel">
+        <div class="usr-log-header" id="usrLogHeader">
+            <div class="usr-log-title">
+                <span class="usr-log-toggle-icon">🔻</span>
+                <span>System Telemetry & Audit Logs</span>
+            </div>
+            <span id="logCount">Logs: 0</span>
         </div>
-        
-        <div class="table-responsive">
-          <table class="hud-table">
-            <thead>
-              <tr>
-                <th>NAMA LENGKAP</th>
-                <th>EMAIL</th>
-                <th>PERAN</th>
-                <th>TIMESTAMP</th>
-              </tr>
-            </thead>
-            <tbody id="userTableBody">
-              <tr>
-                <td colspan="4" class="text-center">> Menunggu sinyal data...</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="usr-log-content" id="usrLogStream"></div>
+    </footer>
+
+    <!-- 4. DYNAMIC MODAL CONTAINER -->
+    <div class="usr-modal-overlay" id="usrModalOverlay">
+        <div class="usr-modal-card">
+            <div class="usr-modal-header">
+                <h3 class="usr-modal-title" id="usrModalTitle">System Dialog</h3>
+                <button class="usr-modal-close" id="usrModalClose">&times;</button>
+            </div>
+            <div class="usr-modal-body" id="usrModalBody">
+                <!-- Form Dinamis Akan Diresapi Di Sini -->
+            </div>
         </div>
-      </section>
-    </section>
+    </div>
 
-    <!-- Panel HUD Sidebar Kanan (25% Desktop) -->
-    <aside class="hud-sidebar">
-      <div class="hud-header">
-        <h4>KENDALI SISTEM</h4>
-        <p class="status-indicator">⚡ CORE ONLINE</p>
-        <button id="btnFetch" class="btn-secondary-sm"> 📡 </button>
-        <button id="btnToggleTheme" class="btn-toggle-theme btn-secondary-sm"> ✨ </button>
-      </div>
-      
-      <hr class="hud-divider" />
-
-      <div class="hud-terminal">
-        <small>// TERMINAL LOGS</small>
-        <div id="dataOutput" class="log-content"></div>
-        <div id="logOutput" class="log-content">
-          > Sistem siap...
-        </div>
-      </div>
-    </aside>
-
-  </main>
-
-  <!-- Script Modular (ES Module) -->
-  <script type="module" src="js/app.js"></script>
+    <!-- MODULAR SYSTEM ARCHITECTURE SCRIPT -->
+    <script type="module" src="./js/main.js"></script>
 </body>
 </html>

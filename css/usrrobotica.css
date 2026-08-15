@@ -1,0 +1,420 @@
+/* === USR DESIGN SYSTEM (FUTURISTIC NEON - NO ANIMATION) === */
+:root {
+    --usr-bg: #0A0E17;                  /* Dark Slate Cyberpunk Background */
+    --usr-card-bg: #121824;             /* Translucent Dark Card */
+    --usr-primary: #050811;            /* Pitch Black Panel Header */
+    
+    /* NEON PALETTE */
+    --usr-neon-cyan: #00F0FF;          /* Primary Neon Accent */
+    --usr-neon-amber: #FFB800;         /* Warning Neon Accent */
+    --usr-neon-green: #00FF66;         /* Status/Success Neon Accent */
+    --usr-neon-red: #FF0055;           /* Security/Danger Neon Accent */
+    
+    --usr-border: #1E293B;
+    --usr-text: #E2E8F0;
+    --usr-text-muted: #94A3B8;
+    --usr-log-bg: #030712;
+    --usr-log-text: #38BDF8;
+    
+    --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "Cascadia Code", Consolas, Monaco, monospace;
+
+    /* GLOW EFFECTS (STATED, NO ANIMATION) */
+    --glow-cyan-sm: 0 0 8px rgba(0, 240, 255, 0.4);
+    --glow-cyan-lg: 0 0 15px rgba(0, 240, 255, 0.25);
+    --glow-red-sm: 0 0 8px rgba(255, 0, 85, 0.5);
+    --glow-green-sm: 0 0 8px rgba(0, 255, 102, 0.6);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* FIX: Canvas dipasang sebagai background fixed agar tidak mengacaukan Grid body */
+#neuralPositronic {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1; /* KUNCI UTAMA: Memindahkan Canvas ke lapisan paling belakang */
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: transparent; /* Ubah jadi transparent agar canvas terlihat */
+    color: var(--usr-text);
+    height: 100vh;
+    display: grid;
+    /* Grid Template: Header (56px) -> Log Panel (Auto) -> Workspace (Sisa Layar / 1fr) */
+    grid-template-rows: 56px auto 1fr;
+    grid-template-areas:
+        "header"
+        "log"
+        "workspace";
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+/* === 1. HEADER PANEL (NEON HUD) === */
+.usr-header {
+    grid-area: header;
+    background-color: var(--usr-primary);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-bottom: 2px solid var(--usr-neon-cyan);
+    box-shadow: 0 2px 12px rgba(0, 240, 255, 0.2); /* Neon Header Accent */
+}
+
+.usr-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 2rem;
+    color: #FFFFFF;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+}
+
+.usr-brand-badge {
+    background-color: var(--usr-neon-cyan);
+    color: #000000;
+    padding: 2px 6px;
+    font-size: 0.2rem;
+    font-weight: 900;
+    border-radius: 2px;
+    box-shadow: var(--glow-cyan-sm);
+}
+
+.usr-nav {
+    display: flex;
+    gap: 8px;
+}
+
+.usr-nav-btn {
+    background: rgba(0, 240, 255, 0.05);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    color: var(--usr-neon-cyan);
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+}
+
+.usr-nav-btn.active, .usr-nav-btn:hover {
+    background: var(--usr-neon-cyan);
+    color: #000000;
+    border-color: var(--usr-neon-cyan);
+    font-weight: 700;
+    box-shadow: var(--glow-cyan-sm);
+}
+
+.usr-status {
+    font-size: 0.8rem;
+    color: var(--usr-neon-green);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(0, 255, 102, 0.4);
+}
+
+.usr-status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--usr-neon-green);
+    border-radius: 50%;
+    box-shadow: var(--glow-green-sm);
+}
+
+/* === 2. MAIN WORKSPACE (CYBER CARD) === */
+.usr-workspace {
+    grid-area: workspace;
+    padding: 20px;
+    overflow-y: auto;
+    /* Transparansi background 15% opacity (alpha 0.15) */
+    background: rgba(18, 24, 36, 0);
+    backdrop-filter: blur(1px); /* Efek blur halus untuk estetika cyberpunk */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.usr-card {
+    background: var(--usr-card-bg);
+    border: 1px solid var(--usr-border);
+    border-left: 4px solid var(--usr-neon-cyan);
+    padding: 20px;
+    border-radius: 2px;
+    box-shadow: var(--glow-cyan-lg);
+}
+
+.usr-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--usr-neon-cyan);
+    text-shadow: 0 0 5px rgba(0, 240, 255, 0.3);
+}
+
+/* === 3. LOG PANEL (TERMINAL HUD) === */
+.usr-log-panel {
+    grid-area: log;
+    background-color: var(--usr-log-bg);
+    /* Border cyan disesuaikan ke bagian bawah karena log panel berada di atas workspace */
+    border-bottom: 2px solid var(--usr-neon-cyan);
+    border-top: none;
+    box-shadow: 0 4px 12px rgba(0, 240, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    height: 160px; /* Tinggi default saat terbuka */
+    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+
+/* State saat Log Panel dilipat */
+.usr-log-panel.collapsed {
+    height: 32px; /* Hanya menampilkan header log */
+}
+
+.usr-log-panel.collapsed .usr-log-content {
+    display: none;
+}
+
+.usr-log-header {
+    background-color: #0F172A;
+    padding: 6px 16px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--usr-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 1px solid var(--usr-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.usr-log-header:hover {
+    background-color: #1E293B;
+    color: var(--usr-neon-cyan);
+}
+
+.usr-log-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Animasi Ikon Panah Toggle */
+.usr-log-toggle-icon {
+    font-size: 0.65rem;
+    color: var(--usr-neon-cyan);
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.usr-log-panel.collapsed .usr-log-toggle-icon {
+    transform: rotate(-90deg); /* Panah berputar saat dilipat */
+}
+
+.usr-log-content {
+    padding: 10px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--usr-log-text);
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.log-entry {
+    line-height: 1.4;
+    display: flex;
+    gap: 12px;
+}
+
+.log-time { color: #475569; }
+.log-type-INFO { 
+    color: var(--usr-neon-cyan); 
+}
+.log-type-WARN { 
+    color: var(--usr-neon-amber); 
+    text-shadow: 0 0 4px rgba(255, 184, 0, 0.3);
+}
+.log-type-SEC { 
+    color: var(--usr-neon-red); 
+    font-weight: bold; 
+    text-shadow: var(--glow-red-sm);
+}
+
+/* ==========================================================================
+   DYNAMIC MODAL SYSTEM (CYBER HUD FORM)
+   ========================================================================== */
+
+.usr-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(3, 7, 18, 0.75);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+/* Modal Aktif / Tampil */
+.usr-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.usr-modal-card {
+    background: var(--usr-card-bg);
+    border: 1px solid var(--usr-neon-cyan);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+    width: 90%;
+    max-width: 480px;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: transform 0.25s ease;
+}
+
+.usr-modal-overlay.active .usr-modal-card {
+    transform: translateY(0);
+}
+
+.usr-modal-header {
+    background: #0F172A;
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--usr-border);
+}
+
+.usr-modal-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--usr-neon-cyan);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.usr-modal-close {
+    background: transparent;
+    border: none;
+    color: var(--usr-text-muted);
+    font-size: 1.4rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.usr-modal-close:hover {
+    color: var(--usr-neon-red);
+}
+
+.usr-modal-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* FORM ELEMENTS STYLING */
+.usr-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.usr-form-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--usr-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.usr-form-input {
+    background: rgba(3, 7, 18, 0.8);
+    border: 1px solid var(--usr-border);
+    color: var(--usr-text);
+    padding: 10px 12px;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.usr-form-input:focus {
+    border-color: var(--usr-neon-cyan);
+    box-shadow: var(--glow-cyan-sm);
+}
+
+.usr-form-submit {
+    margin-top: 10px;
+    background: var(--usr-neon-cyan);
+    color: #000000;
+    font-weight: 800;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: box-shadow 0.2s;
+}
+
+.usr-form-submit:hover {
+    box-shadow: var(--glow-cyan-sm);
+}
+
+.usr-form-status {
+    padding: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: none;
+    border-radius: 2px;
+}
+
+.usr-form-status.success {
+    display: block;
+    background: rgba(0, 255, 102, 0.1);
+    border: 1px solid var(--usr-neon-green);
+    color: var(--usr-neon-green);
+}
+
+.usr-form-status.error {
+    display: block;
+    background: rgba(255, 0, 85, 0.1);
+    border: 1px solid var(--usr-neon-red);
+    color: var(--usr-neon-red);
+}
