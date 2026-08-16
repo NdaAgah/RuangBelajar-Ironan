@@ -13,7 +13,7 @@ class USRCore {
         this.config = {
             // webhost '/api/verval'
             // localhost 'https://ruangbelajar-ironan.vercel.app/api/verval 
-            gasEndpointUrl: 'https://ruangbelajar-ironan.vercel.app/api/verval'
+            gasEndpointUrl: '/api/verval'
         };
 
         this.modules = new Map();
