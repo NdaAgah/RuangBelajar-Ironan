@@ -4,8 +4,8 @@
 */
 
 // FIX 1: Pastikan menyertakan `.js` dan sesuaikan jalur folder file Anda
-import { initIRobotTheme } from "./background-animation.js";
-import { renderVervalForm } from "./vervalUser.js";
+import { initIRobotTheme } from "./modues/background-animation.js";
+import { renderVervalForm } from "./modules/vervalUser.js";
 
 class USRCore {
     constructor() {
