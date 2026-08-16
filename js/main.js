@@ -6,12 +6,14 @@
 // FIX 1: Pastikan menyertakan `.js` dan sesuaikan jalur folder file Anda
 import { initIRobotTheme } from "./background-animation.js";
 import { renderVervalForm } from "./vervalUser.js";
+import { renderRegisterForm } from "./regSiswa.js";
 
 class USRCore {
     constructor() {
         this.config = {
-            // Rubah ke '/api/verval'
-            gasEndpointUrl: '/api/verval'
+            // webhost '/api/verval'
+            // localhost 'https://ruangbelajar-ironan.vercel.app/api/verval 
+            gasEndpointUrl: 'https://ruangbelajar-ironan.vercel.app/api/verval'
         };
 
         this.modules = new Map();
@@ -35,6 +37,8 @@ class USRCore {
         
         // Flag untuk status modal
         this.isModalClosable = true;
+
+        this.forms = new Map(); // Tempat menyimpan registry form
     }
 
     // Inisialisasi Aplikasi
@@ -205,6 +209,25 @@ class USRCore {
         this.domLogStream.scrollTop = this.domLogStream.scrollHeight;
         this.domLogCount.textContent = `Logs: ${this.logCounter}`;
     }
+
+    generateStudentKey() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let result = '';
+        for (let i = 0; i < 5; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    }
+
+    // Method untuk mendaftarkan form
+    registerForm(name, renderFn) {
+        this.forms.set(name, renderFn);
+    }
+
+    // Method untuk mengambil form berdasarkan nama
+    getForm(name) {
+        return this.forms.get(name);
+    }
 }
 
 // 1. Inisialisasi Core Engine
@@ -215,9 +238,19 @@ const App = new USRCore();
 document.addEventListener('DOMContentLoaded', () => {
     App.init();
     App.log('INFO', 'Auto-launching VERVAL Modal on system startup...');
+    
+    // 2. Inisialisasi Canvas Background Animasi
+    const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
+
+    // Register form ke dalam core engine
+    App.registerForm('verval', renderVervalForm);
+    App.registerForm('register', renderRegisterForm);
+    
+    // Verifikasi dan Validasi Siswa
+    App.openModal('VERVAL SEKTOR SIBER', App.getForm('verval'), false);
 
     // Amankan pemanggilan Modal
-    try {
+    /*try {
         App.openModal('VERVAL SEKTOR SIBER', renderVervalForm, true);
     } catch (err) {
         App.log('SEC', `Failed to render Verval Modal: ${err.message}`);
@@ -228,10 +261,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
     } catch (err) {
         App.log('WARN', `Canvas init failed: ${err.message}`);
-    }
-
-    // Registrasi Modul Dashboard
+    }*/
+    
     App.registerModule('dashboard', 'Dashboard', (core) => {
+        if (bgCanvas) bgCanvas.setMode('neural');
+
         const container = document.createElement('div');
         container.className = 'usr-card';
         container.innerHTML = `
@@ -252,8 +286,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return container;
     });
 
-    // Registrasi Modul Keamanan
+    // Modul 2: Security Audit
     App.registerModule('security', 'Keamanan', (core) => {
+        if (bgCanvas) bgCanvas.setMode('positronic');
+        
         const container = document.createElement('div');
         container.className = 'usr-card';
         container.style.borderLeftColor = 'var(--usr-danger)';

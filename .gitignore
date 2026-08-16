@@ -1,6 +1,6 @@
 # Abaikan file & folder
 .env
-
+.env.local
 
 # Abaikan seting editor VScode lokal
 .vscode/
