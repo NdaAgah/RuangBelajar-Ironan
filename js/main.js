@@ -4,7 +4,7 @@
 */
 
 // FIX 1: Pastikan menyertakan `.js` dan sesuaikan jalur folder file Anda
-import { initIRobotTheme } from "./modues/background-animation.js";
+import { initIRobotTheme } from "./modules/background-animation.js";
 import { renderVervalForm } from "./modules/vervalUser.js";
 
 class USRCore {
@@ -215,7 +215,7 @@ const App = new USRCore();
 document.addEventListener('DOMContentLoaded', () => {
     App.init();
     App.log('INFO', 'Auto-launching VERVAL Modal on system startup...');
-    App.openModal('VERVAL SEKTOR SIBER', renderVervalForm, true);
+    App.openModal('VERVAL SEKTOR SIBER', renderVervalForm, false);
 
     // 2. Inisialisasi Canvas Background Animasi
     const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
