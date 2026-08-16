@@ -1,0 +1,278 @@
+/* === NAVIGATION BUTTONS === */
+.usr-nav {
+    display: flex;
+    gap: 6px;
+}
+
+.usr-nav-btn {
+    background: rgba(0, 240, 255, 0.05);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    color: var(--usr-neon-cyan);
+    padding: 8px 14px; /* Touch target dioptimalkan untuk seluler */
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+}
+
+.usr-nav-btn.active, .usr-nav-btn:hover {
+    background: var(--usr-neon-cyan);
+    color: #000000;
+    border-color: var(--usr-neon-cyan);
+    font-weight: 700;
+    box-shadow: var(--glow-cyan-sm);
+}
+
+/* === CARDS === */
+.usr-card {
+    background: var(--usr-card-bg);
+    border: 1px solid var(--usr-border);
+    border-left: 4px solid var(--usr-neon-cyan);
+    padding: 16px;
+    border-radius: 2px;
+    box-shadow: var(--glow-cyan-lg);
+}
+
+.usr-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--usr-neon-cyan);
+    text-shadow: 0 0 5px rgba(0, 240, 255, 0.3);
+}
+
+/* === LOG TERMINAL PANEL === */
+.usr-log-panel {
+    grid-area: log;
+    background-color: var(--usr-log-bg);
+    border-bottom: 2px solid var(--usr-neon-cyan);
+    box-shadow: 0 4px 12px rgba(0, 240, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    height: 140px;
+    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+
+.usr-log-panel.collapsed {
+    height: 36px;
+}
+
+.usr-log-panel.collapsed .usr-log-content {
+    display: none;
+}
+
+.usr-log-header {
+    background-color: #0F172A;
+    padding: 8px 14px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--usr-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 1px solid var(--usr-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.usr-log-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.usr-log-toggle-icon {
+    font-size: 0.65rem;
+    color: var(--usr-neon-cyan);
+    transition: transform 0.3s ease;
+}
+
+.usr-log-panel.collapsed .usr-log-toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.usr-log-content {
+    padding: 8px 12px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--usr-log-text);
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.log-entry {
+    line-height: 1.4;
+    display: flex;
+    gap: 8px;
+    word-break: break-word;
+}
+
+.log-time { color: #475569; }
+.log-type-INFO { color: var(--usr-neon-cyan); }
+.log-type-WARN { color: var(--usr-neon-amber); text-shadow: 0 0 4px rgba(255, 184, 0, 0.3); }
+.log-type-SEC { color: var(--usr-neon-red); font-weight: bold; text-shadow: var(--glow-red-sm); }
+
+/* === DYNAMIC MODAL & FORM (MOBILE FRIENDLY) === */
+.usr-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(3, 7, 18, 0.85);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    padding: 16px;
+}
+
+.usr-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.usr-modal-card {
+    background: var(--usr-card-bg);
+    border: 1px solid var(--usr-neon-cyan);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+    width: 100%;
+    max-width: 440px;
+    max-height: 90vh; /* Mencegah modal terpotong di layar HP pendek */
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translateY(-10px);
+    transition: transform 0.25s ease;
+}
+
+.usr-modal-overlay.active .usr-modal-card {
+    transform: translateY(0);
+}
+
+.usr-modal-header {
+    background: #0F172A;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--usr-border);
+}
+
+.usr-modal-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--usr-neon-cyan);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.usr-modal-close {
+    background: transparent;
+    border: none;
+    color: var(--usr-text-muted);
+    font-size: 1.6rem;
+    padding: 4px 8px; /* Kemudahan akses sentuh */
+    cursor: pointer;
+    line-height: 1;
+}
+
+.usr-modal-close:hover {
+    color: var(--usr-neon-red);
+}
+
+.usr-modal-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow-y: auto; /* Scrollable jika form panjang */
+}
+
+/* FORM ELEMENTS */
+.usr-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.usr-form-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--usr-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.usr-form-input {
+    background: rgba(3, 7, 18, 0.8);
+    border: 1px solid var(--usr-border);
+    color: var(--usr-text);
+    padding: 12px; /* Nyaman untuk diketik via HP */
+    font-family: var(--font-main);
+    font-size: 16px; /* 16px MENCEGAH zoom otomatis pada iOS Safari */
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.usr-form-input:focus {
+    border-color: var(--usr-neon-cyan);
+    box-shadow: var(--glow-cyan-sm);
+}
+
+.usr-form-submit {
+    margin-top: 8px;
+    background: var(--usr-neon-cyan);
+    color: #000000;
+    font-weight: 800;
+    border: none;
+    padding: 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: box-shadow 0.2s;
+}
+
+.usr-form-submit:hover {
+    box-shadow: var(--glow-cyan-sm);
+}
+
+.usr-form-status {
+    padding: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: none;
+    border-radius: 2px;
+}
+
+.usr-form-status.success {
+    display: block;
+    background: rgba(0, 255, 102, 0.1);
+    border: 1px solid var(--usr-neon-green);
+    color: var(--usr-neon-green);
+}
+
+.usr-form-status.error {
+    display: block;
+    background: rgba(255, 0, 85, 0.1);
+    border: 1px solid var(--usr-neon-red);
+    color: var(--usr-neon-red);
+}

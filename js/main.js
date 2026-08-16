@@ -215,43 +215,23 @@ const App = new USRCore();
 document.addEventListener('DOMContentLoaded', () => {
     App.init();
     App.log('INFO', 'Auto-launching VERVAL Modal on system startup...');
-    App.openModal('VERVAL SEKTOR SIBER', renderVervalForm, true);
 
-    // 2. Inisialisasi Canvas Background Animasi
-    const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
+    // Amankan pemanggilan Modal
+    try {
+        App.openModal('VERVAL SEKTOR SIBER', renderVervalForm, true);
+    } catch (err) {
+        App.log('SEC', `Failed to render Verval Modal: ${err.message}`);
+    }
 
-    /* ==========================================================================
-    REGISTRASI MODUL
-    ========================================================================== */
+    // Inisialisasi Canvas Background
+    try {
+        const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
+    } catch (err) {
+        App.log('WARN', `Canvas init failed: ${err.message}`);
+    }
 
-    // Modul 1: System Dashboard
-    // Modul Dashboard dengan Tombol Pemicu Modal
-    /*
-    App.registerModule('verval', 'Verval', (core) => {
-        if (bgCanvas) bgCanvas.setMode('neural');
-
-        const container = document.createElement('div');
-        container.className = 'usr-card';
-        container.innerHTML = `
-            <h2 class="usr-card-title">VERVAL SEKTOR SIBER</h2>
-            <p style="margin-bottom: 16px; color: var(--usr-text-muted);">
-                Klik tombol di bawah untuk membuka form verifikasi keanggotaan Sektor Siber.
-            </p>
-            <button id="btnOpenVerval" class="usr-nav-btn" style="background: var(--usr-neon-cyan); color: #000; font-weight: bold;">
-                Buka Form VERVAL
-            </button>
-        `;
-
-        container.querySelector('#btnOpenVerval').addEventListener('click', () => {
-            core.openModal('VERVAL SEKTOR SIBER', renderVervalForm, false);
-        });
-
-        return container;
-    });*/
-
+    // Registrasi Modul Dashboard
     App.registerModule('dashboard', 'Dashboard', (core) => {
-        if (bgCanvas) bgCanvas.setMode('neural');
-
         const container = document.createElement('div');
         container.className = 'usr-card';
         container.innerHTML = `
@@ -272,10 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return container;
     });
 
-    // Modul 2: Security Audit
+    // Registrasi Modul Keamanan
     App.registerModule('security', 'Keamanan', (core) => {
-        if (bgCanvas) bgCanvas.setMode('positronic');
-        
         const container = document.createElement('div');
         container.className = 'usr-card';
         container.style.borderLeftColor = 'var(--usr-danger)';
