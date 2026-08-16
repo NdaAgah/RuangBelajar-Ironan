@@ -1,0 +1,119 @@
+/* === LAYOUT & RESPONSIVE GRID === */
+#neuralPositronic {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: transparent;
+    color: var(--usr-text);
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+        "header"
+        "log"
+        "workspace";
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+/* === HEADER HUD === */
+.usr-header {
+    grid-area: header;
+    background-color: var(--usr-primary);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 2px solid var(--usr-neon-cyan);
+    box-shadow: 0 2px 12px rgba(0, 240, 255, 0.2);
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.usr-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 1.4rem;
+    color: #FFFFFF;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+}
+
+.usr-brand-badge {
+    display: inline-block;
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 1px;
+    padding: 2px 5px;
+    background-color: var(--usr-neon-cyan); 
+    color: #000000;
+    border-radius: 3px;
+    box-shadow: var(--glow-cyan-sm);
+}
+
+.usr-status {
+    max-width: fit-content;
+    font-size: 0.75rem;
+    color: var(--usr-neon-green);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(0, 255, 102, 0.4);
+}
+
+.usr-status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--usr-neon-green);
+    border-radius: 50%;
+    box-shadow: var(--glow-green-sm);
+}
+
+/* === WORKSPACE CONTAINER === */
+.usr-workspace {
+    grid-area: workspace;
+    padding: 16px;
+    overflow-y: auto;
+    background: rgba(18, 24, 36, 0);
+    backdrop-filter: blur(1px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* === RESPONSIVE MEDIA QUERIES (MOBILE OPTIMIZATION) === */
+@media (max-width: 640px) {
+    .usr-header {
+        padding: 8px 12px;
+    }
+
+    .usr-brand {
+        font-size: 1.1rem;
+    }
+
+    .usr-status {
+        font-size: 0.65rem;
+    }
+
+    .usr-workspace {
+        padding: 12px;
+        gap: 12px;
+    }
+}
