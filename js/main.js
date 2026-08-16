@@ -215,11 +215,25 @@ const App = new USRCore();
 document.addEventListener('DOMContentLoaded', () => {
     App.init();
     App.log('INFO', 'Auto-launching VERVAL Modal on system startup...');
-    App.openModal('VERVAL SEKTOR SIBER', renderVervalForm, true);
+    // App.openModal('VERVAL SEKTOR SIBER', renderVervalForm, true);
 
     // 2. Inisialisasi Canvas Background Animasi
-    const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
+    // const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
 
+    // Amankan pemanggilan Modal
+    try {
+        App.openModal('VERVAL SEKTOR SIBER', renderVervalForm, true);
+    } catch (err) {
+        App.log('SEC', `Failed to render Verval Modal: ${err.message}`);
+    }
+
+    // Inisialisasi Canvas Background
+    try {
+        const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
+    } catch (err) {
+        App.log('WARN', `Canvas init failed: ${err.message}`);
+    }
+    
     /* ==========================================================================
     REGISTRASI MODUL
     ========================================================================== */
