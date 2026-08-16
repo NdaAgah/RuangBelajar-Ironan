@@ -95,6 +95,10 @@ class USRCore {
     // Fitur Toggle Log Panel
     setupLogToggle() {
         if (this.domLogHeader && this.domLogPanel) {
+            // Auto collapse di layar mobile agar ruang kerja tidak tertutup log
+            if (window.innerWidth <= 768) {
+                this.domLogPanel.classList.add('collapsed');
+            }
             this.domLogHeader.addEventListener('click', () => {
                 this.domLogPanel.classList.toggle('collapsed');
             });
