@@ -1,6 +1,7 @@
-# Abaikan file envVar
+# Abaikan file & folder
 .env
 .env.local
+/js/modules/
 
 # Abaikan seting editor VScode lokal
 .vscode/
