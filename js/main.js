@@ -7,6 +7,7 @@
 import { initIRobotTheme } from "./background-animation.js";
 import { renderVervalForm } from "./vervalUser.js";
 import { renderRegisterForm } from "./regSiswa.js";
+import { renderStudentCard } from "./userCard.js";
 
 class USRCore {
     constructor() {
@@ -39,6 +40,8 @@ class USRCore {
         this.isModalClosable = true;
 
         this.forms = new Map(); // Tempat menyimpan registry form
+        
+        this.currentUser = JSON.parse(localStorage.getItem('siber_user')) || null;
     }
 
     // Inisialisasi Aplikasi
@@ -176,6 +179,7 @@ class USRCore {
             }
             idx++;
         });
+        
     }
 
     // Centralized Logging Engine
@@ -228,6 +232,18 @@ class USRCore {
     getForm(name) {
         return this.forms.get(name);
     }
+    
+    // Simpan data profil siswa ke State & LocalStorage
+    setUserData(userData) {
+        this.currentUser = userData;
+        localStorage.setItem('siber_user', JSON.stringify(userData));
+        this.log('INFO', `User State Updated: [${userData.nama}] (${userData.status})`);
+    }
+        
+    // Ambil data profil
+    getUserData() {
+        return this.currentUser;
+    }
 }
 
 // 1. Inisialisasi Core Engine
@@ -263,26 +279,28 @@ document.addEventListener('DOMContentLoaded', () => {
         App.log('WARN', `Canvas init failed: ${err.message}`);
     }*/
     
+    // Modul 1: Dashboard (Menampilkan Kartu Siswa)
     App.registerModule('dashboard', 'Dashboard', (core) => {
         if (bgCanvas) bgCanvas.setMode('neural');
-
+        
         const container = document.createElement('div');
-        container.className = 'usr-card';
-        container.innerHTML = `
-            <h2 class="usr-card-title">Three Laws Compliance Monitor</h2>
-            <p style="margin-bottom: 12px; color: var(--usr-text-muted);">
-                Sistem dalam kondisi normal. Seluruh unit terhubung ke server pusat USR.
-            </p>
-            <button id="btnDiagnostic" class="usr-nav-btn">
-                Jalankan Diagnostik
-            </button>
-        `;
-
-        container.querySelector('#btnDiagnostic').addEventListener('click', () => {
-            core.log('INFO', 'Running Diagnostic Routine...');
-            core.log('INFO', 'Diagnostic Complete: Integrity 100%.');
-        });
-
+        const user = core.getUserData();
+        
+        if (user) {
+            // Tampilkan Kartu Siswa jika data user ada
+            const cardNode = renderStudentCard(user);
+            container.appendChild(cardNode);
+        } else {
+            // Tampilan fallback jika belum ada user
+            container.className = 'usr-card';
+            container.innerHTML = `
+                <h2 class="usr-card-title">Three Laws Compliance Monitor</h2>
+                <p style="margin-bottom: 12px; color: var(--usr-text-muted);">
+                    Silakan lakukan Verifikasi Valuasi atau Registrasi untuk mengakses Kartu Siswa.
+                </p>
+            `;
+        }
+        
         return container;
     });
 

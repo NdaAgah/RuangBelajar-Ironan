@@ -50,15 +50,24 @@ export function renderVervalForm(core) {
 
             // 3. Proses Respon dari GAS
             if (result.status === 'SUCCESS') {
-                statusBox.style.display = 'block'; // PERBAIKAN: Tampilkan kembali statusBox
+                statusBox.style.display = 'block';
                 statusBox.className = 'usr-form-status success';
                 statusBox.textContent = `✓ ${result.message}`;
-                core.log('INFO', `SERVER RESPONSE: [${nama}] Terverifikasi oleh GAS Server.`);
-                
+            
+                // Simpan data resmi hasil query Spreadsheet ke Core State
+                core.setUserData({
+                    key: result.data.key,
+                    nama: result.data.nama,
+                    sekolah: result.data.sekolah,
+                    tingkat: result.data.tingkat,
+                    kelas: result.data.kelas,
+                    status: 'VERIFIED'
+                });
+            
                 setTimeout(() => {
                     core.closeModal();
+                    core.loadModule('dashboard'); // Buka dashboard & render kartu dari data spreadsheet
                 }, 1500);
-
             } else if (result.status === 'FAILED') {
                 core.log('SEC', `VERVAL REJECTED: ${result.message}`);
                 

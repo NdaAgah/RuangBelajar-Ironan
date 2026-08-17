@@ -99,8 +99,19 @@ export function renderRegisterForm(core) {
                 statusBox.textContent = `✓ ${result.message}`;
                 core.log('INFO', `SERVER RESPONSE: Registrasi [${payload.nama}] Berhasil.`);
                 
+                // Simpan data payload ke Core State
+                core.setUserData({
+                    key: payload.key,
+                    nama: payload.nama,
+                    sekolah: payload.sekolah,
+                    tingkat: payload.tingkat,
+                    kelas: payload.kelas,
+                    status: 'REGISTERED'
+                });
+                
                 setTimeout(() => {
                     core.closeModal();
+                    core.loadModule('dashboard'); // Buka otomatis Dashboard & Kartu Siswa
                 }, 1500);
 
             } else {
