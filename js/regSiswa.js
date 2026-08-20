@@ -4,7 +4,7 @@
 
 // Helper sederhana untuk membersihkan karakter berbahaya (mencegah XSS)
 function sanitizeInput(str) {
-    return str.replace('/[&<>"\']/g', (match) => {
+    return str.replace(/[&<>"']/g, (match) => {
         const map = {
             '&': '&amp;',
             '<': '&lt;',
@@ -147,6 +147,7 @@ export function renderRegisterForm(core) {
                     core.closeModal();
                 }, 1500);
                 
+                window.location.reload();
             } else {
                 // Respon Gagal dari GAS
                 statusBox.style.display = 'block';
