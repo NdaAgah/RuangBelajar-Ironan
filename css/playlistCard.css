@@ -1,0 +1,41 @@
+/* ==========================================================================
+   S.I.B.E.R VIDEO PLAYLIST - FIX CSS CONFLICT
+   ========================================================================== */
+
+/* 1. Paksa Kartu & Body Membentang Penuh */
+.video-playlist-card {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
+}
+
+.video-playlist-card .siber-card-body {
+    width: 100% !important;
+    display: block !important; /* Netralkan flexbox pembawa konflik */
+    padding-top: 12px;
+    box-sizing: border-box !important;
+}
+
+/* 2. Wrapper Menggunakan Modern Aspect Ratio (Anti-Collapse) */
+.siber-video-wrapper {
+    width: 100% !important;
+    aspect-ratio: 16 / 9; /* Rasio otomatis tanpa terpengaruh flexbox */
+    position: relative;
+    border-radius: 8px;
+    border: 1px solid var(--usr-neon-cyan, #00f0ff);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    background: #000;
+    overflow: hidden;
+}
+
+/* 3. Frame Youtube */
+.siber-video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    /* display: block; */
+}

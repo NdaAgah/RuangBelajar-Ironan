@@ -1,0 +1,28 @@
+/* Container Telemetry Terminal */
+#telemetryLogContainer {
+    max-height: 100px;
+    overflow-y: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    background: rgba(3, 5, 12, 0.9);
+    border-left: 2px solid var(--usr-neon-cyan, #00f0ff);
+    padding: 8px 12px;
+}
+
+/* Format Per Baris Log */
+.log-line {
+    margin-bottom: 2px;
+    white-space: nowrap;
+}
+
+.log-time { color: #666; }
+.log-tag { font-weight: bold; }
+
+/* Warna Tag Spesifik Cyberpunk */
+.log-info .log-tag { color: #00f0ff; }
+.log-sec .log-tag  { color: #ff0055; }
+.log-net .log-tag  { color: #ffaa00; }
+.log-sys .log-tag  { color: #00ff88; }
+.log-ai .log-tag   { color: #b026ff; }
+.log-error .log-tag { color: #ff3333; }

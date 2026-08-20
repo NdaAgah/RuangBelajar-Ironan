@@ -1,4 +1,8 @@
-/* === LAYOUT & RESPONSIVE GRID === */
+/* ==========================================================================
+   S.I.B.E.R CORE LAYOUT & RESPONSIVE GRID
+   ========================================================================== */
+
+/* Background Canvas Layer */
 #neuralPositronic {
     position: fixed;
     top: 0;
@@ -9,11 +13,13 @@
     z-index: -1;
 }
 
+/* Base Body Grid System */
 body {
     font-family: var(--font-main);
     background-color: transparent;
     color: var(--usr-text);
     height: 100vh;
+    height: 100dvh; /* Support Dynamic Viewport Mobile */
     display: grid;
     grid-template-rows: auto auto 1fr;
     grid-template-areas:
@@ -25,7 +31,7 @@ body {
     z-index: 1;
 }
 
-/* === HEADER HUD === */
+/* Header HUD */
 .usr-header {
     grid-area: header;
     background-color: var(--usr-primary);
@@ -33,51 +39,54 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 16px;
+    padding: 10px 20px;
     border-bottom: 2px solid var(--usr-neon-cyan);
     box-shadow: 0 2px 12px rgba(0, 240, 255, 0.2);
     gap: 12px;
-    flex-wrap: wrap;
+    z-index: 20;
 }
 
+/* Container Utama Brand Header */
 .usr-brand {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 2px;
+    flex-direction: column;    /* Menyusun judul dan badge secara vertikal (atas-bawah) */
+    align-items: flex-start;  /* Menjaga badge rata kiri dengan teks judul */
+    gap: 4px;                  /* Jarak rapat antara teks judul dan badge di bawahnya */
     font-weight: 700;
     letter-spacing: 1px;
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     color: #FFFFFF;
     text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
 }
 
+/* Badge di bawah Judul */
 .usr-brand-badge {
-    display: inline-block;
-    font-size: 8px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: 1px;
-    padding: 2px 5px;
-    background-color: var(--usr-neon-cyan); 
+    background-color: var(--usr-neon-cyan);
     color: #000000;
-    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    border-radius: 2px;
     box-shadow: var(--glow-cyan-sm);
+    white-space: nowrap;
+    width: fit-content;        /* Memastikan lebar badge pas sesuai isi teksnya */
 }
 
+/* Status Indikator Sistem */
 .usr-status {
-    max-width: fit-content;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: var(--usr-neon-green);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-weight: 600;
     letter-spacing: 1px;
     text-shadow: 0 0 5px rgba(0, 255, 102, 0.4);
+    
+    margin-left: auto;         /* Mendorong elemen status terkunci rapat di sebelah kanan */
 }
 
+/* Titik Hijau Indikator Status */
 .usr-status-dot {
     width: 8px;
     height: 8px;
@@ -86,34 +95,331 @@ body {
     box-shadow: var(--glow-green-sm);
 }
 
-/* === WORKSPACE CONTAINER === */
+/* Workspace Container */
 .usr-workspace {
     grid-area: workspace;
-    padding: 16px;
+    padding: 20px;
+    padding-bottom: 80px;
     overflow-y: auto;
-    background: rgba(18, 24, 36, 0);
-    backdrop-filter: blur(1px);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    overflow-x: hidden;
+    height: 100%;
+    box-sizing: border-box;
 }
 
-/* === RESPONSIVE MEDIA QUERIES (MOBILE OPTIMIZATION) === */
-@media (max-width: 640px) {
+/* ==========================================================================
+   DESKTOP & TABLET LANDSCAPE GRID (2 COLUMNS)
+   ========================================================================== */
+
+/* Grid Desktop & Tablet Landscape */
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 450px 1fr; /* Kolom kiri 340px, kanan fleksibel */
+    gap: 24px;
+    align-items: start;
+    height: calc(100vh - 120px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* SIBER ID Card Optimization */
+.siber-id-card {
+    border: 1px solid var(--usr-neon-cyan);
+    background: linear-gradient(135deg, rgba(10, 25, 47, 0.95), rgba(5, 12, 24, 0.98));
+    box-shadow: var(--glow-cyan-lg);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-height: none;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.siber-watermark {
+    position: absolute;
+    right: -5px;
+    bottom: -20px;
+    opacity: 0.05;
+    font-size: 7.5rem;
+    font-weight: 900;
+    font-family: var(--font-mono);
+    pointer-events: none;
+    user-select: none;
+}
+
+.siber-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    border-bottom: 1px dashed var(--usr-border);
+    padding-bottom: 10px;
+}
+
+.siber-header-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.siber-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.siber-title {
+    color: var(--usr-neon-cyan);
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    font-weight: bold;
+}
+
+.siber-subtext {
+    font-size: 0.65rem;
+    color: var(--usr-text-muted);
+    letter-spacing: 1px;
+}
+
+.siber-badge {
+    border: 1px solid var(--usr-neon-cyan);
+    color: var(--usr-neon-cyan);
+    font-size: 0.65rem;
+    padding: 4px 8px;
+    border-radius: 2px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-family: var(--font-mono);
+}
+
+.siber-btn-logout {
+    background: rgba(255, 0, 85, 0.08);
+    border: 1px solid rgba(255, 0, 85, 0.4);
+    color: var(--usr-neon-red);
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.siber-btn-logout:hover {
+    background: rgba(255, 0, 85, 0.25);
+    border-color: var(--usr-neon-red);
+    box-shadow: var(--glow-red-sm);
+    color: #fff;
+}
+
+.siber-card-body {
+    display: grid;
+    grid-template-columns: 75px 1fr;
+    gap: 14px;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.siber-avatar-box {
+    width: 75px;
+    height: 85px;
+    border: 1px solid var(--usr-border);
+    background: rgba(0, 240, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.siber-avatar-icon { font-size: 1.8rem; }
+
+.siber-avatar-label {
+    font-size: 0.55rem;
+    color: var(--usr-neon-cyan);
+    font-family: var(--font-mono);
+    margin-top: 4px;
+}
+
+.siber-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.85rem;
+}
+
+.siber-key {
+    color: var(--usr-neon-cyan);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+}
+
+.siber-value-bold { color: #ffffff; font-weight: 600; }
+.siber-value { color: var(--usr-text); }
+
+.siber-card-footer {
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.siber-issued {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--usr-text-muted);
+}
+
+.siber-barcode {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    color: var(--usr-neon-cyan);
+    opacity: 0.7;
+}
+
+/* ==========================================================================
+   PENATAAN BIODATA ID CARD (LAYOUT GRID)
+   ========================================================================== */
+
+/* Kontainer utama biodata */
+.siber-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+/* Baris tunggal (KEY, NAMA, SEKOLAH) - Membagi Label dan Nilai */
+.siber-info-item {
+    display: grid;
+    grid-template-columns: 35px 1fr; /* 65px untuk lebar Label, sisa ruang untuk Nilai */
+    align-items: center;
+    gap: 8px;
+}
+
+/* Baris ganda khusus TINGKAT & KELAS agar sejajar menyamping */
+.siber-info-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Membagi 2 kolom sama lebar */
+    gap: 8px;
+    width: 100%;
+}
+
+/* Format teks Label (Sisi Kiri) */
+.siber-subtext {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.65rem;
+    color: var(--usr-text-muted, #8892b0);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Format teks Nilai (Sisi Kanan) */
+.siber-key {
+    color: var(--usr-neon-cyan, #00f0ff);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.siber-value-bold {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Mengatur nama panjang agar tidak merusak kartu */
+}
+
+.siber-value {
+    color: var(--usr-text, #ccd6f6);
+    font-size: 0.8rem;
+}
+
+
+/* AI Chat Box & Content Section */
+.ai-chat-card {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINT (TABLET PORTRAIT & MOBILE <= 768px)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    /* Auto Scroll Workspace pada Mobile */
+    .usr-workspace {
+        padding: 12px;
+        overflow-y: auto;
+    }
+
+    /* Stack Vertikal Single Column */
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+        gap: 16px;
+    }
+
+    /* Penyesuaian Kartu Identitas Mobile */
+    .siber-id-card {
+        max-height: none;
+        height: auto;
+    }
+
+    /* Penyesuaian Header Mobile */
     .usr-header {
         padding: 8px 12px;
+        flex-wrap: wrap;
     }
 
     .usr-brand {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
-    .usr-status {
-        font-size: 0.65rem;
+    .usr-nav {
+        order: 3;
+        width: 100%;
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding-top: 4px;
     }
 
-    .usr-workspace {
-        padding: 12px;
-        gap: 12px;
+    .usr-nav-btn {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
+}
+
+/* Custom Scrollbar Theme */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--usr-log-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 240, 255, 0.4);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--usr-neon-cyan);
 }

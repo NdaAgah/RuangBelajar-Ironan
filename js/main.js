@@ -8,6 +8,7 @@ import { initIRobotTheme } from "./background-animation.js";
 import { renderVervalForm } from "./vervalUser.js";
 import { renderRegisterForm } from "./regSiswa.js";
 import { renderStudentCard } from "./userCard.js";
+import { renderAiChatForm } from "./aiChatForm.js"
 
 class USRCore {
     constructor() {
@@ -42,6 +43,8 @@ class USRCore {
         this.forms = new Map(); // Tempat menyimpan registry form
         
         this.currentUser = JSON.parse(localStorage.getItem('siber_user')) || null;
+        //this.currentUser = localStorage.getItem('siber_user') || null;
+        //console.log(this.currentUser);
     }
 
     // Inisialisasi Aplikasi
@@ -226,10 +229,12 @@ class USRCore {
     // Method untuk mendaftarkan form
     registerForm(name, renderFn) {
         this.forms.set(name, renderFn);
+        this.log('INFO', `Registrasi Modul [${name}] berhasil`);
     }
 
     // Method untuk mengambil form berdasarkan nama
     getForm(name) {
+        this.log('INFO', `Load [${name}]`);
         return this.forms.get(name);
     }
     
@@ -239,7 +244,7 @@ class USRCore {
         localStorage.setItem('siber_user', JSON.stringify(userData));
         this.log('INFO', `User State Updated: [${userData.nama}] (${userData.status})`);
     }
-        
+    
     // Ambil data profil
     getUserData() {
         return this.currentUser;
@@ -248,38 +253,21 @@ class USRCore {
 
 // 1. Inisialisasi Core Engine
 const App = new USRCore();
+
 /* ==========================================================================
    AUTO-EXECUTE / AUTORUN ON LOAD
    ========================================================================== */
-document.addEventListener('DOMContentLoaded', () => {
-    App.init();
-    App.log('INFO', 'Auto-launching VERVAL Modal on system startup...');
-    
-    // 2. Inisialisasi Canvas Background Animasi
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Inisialisasi Canvas Background
     const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
 
-    // Register form ke dalam core engine
+    // 2. Register Form
     App.registerForm('verval', renderVervalForm);
     App.registerForm('register', renderRegisterForm);
+    App.registerForm('aiChat', renderAiChatForm);
     
-    // Verifikasi dan Validasi Siswa
-    App.openModal('VERVAL SEKTOR SIBER', App.getForm('verval'), false);
-
-    // Amankan pemanggilan Modal
-    /*try {
-        App.openModal('VERVAL SEKTOR SIBER', renderVervalForm, true);
-    } catch (err) {
-        App.log('SEC', `Failed to render Verval Modal: ${err.message}`);
-    }
-
-    // Inisialisasi Canvas Background
-    try {
-        const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
-    } catch (err) {
-        App.log('WARN', `Canvas init failed: ${err.message}`);
-    }*/
-    
-    // Modul 1: Dashboard (Menampilkan Kartu Siswa)
+    // 3. Register Modul Dashboard (Kartu + Video + AI)
+    // Register Modul Dashboard dengan Lazy Loading Playlist
     App.registerModule('dashboard', 'Dashboard', (core) => {
         if (bgCanvas) bgCanvas.setMode('neural');
         
@@ -287,24 +275,54 @@ document.addEventListener('DOMContentLoaded', () => {
         const user = core.getUserData();
         
         if (user) {
-            // Tampilkan Kartu Siswa jika data user ada
+            container.className = 'dashboard-layout';
+            
+            // 1. Render Kartu Identitas Siswa
             const cardNode = renderStudentCard(user);
             container.appendChild(cardNode);
+            
+            // 2. Kontainer Playlist Video (Minimalis Tanpa Deskripsi)
+            const playlistBox = document.createElement('div');
+            playlistBox.className = 'usr-card';
+            playlistBox.innerHTML = `
+                <h3 class="usr-card-title">📚 Modul Video Pembelajaran</h3>
+                <p id="playlistStatus" style="color: var(--usr-text-muted);">Memuat daftar materi...</p>
+                <div id="playlistContainer" class="playlist-grid"></div>
+            `;
+            container.appendChild(playlistBox);
+
+            // 3. Tombol Pemicu Floating AI Chat (Versi Ringkas)
+            const aiTriggerBox = document.createElement('button');
+            aiTriggerBox.type = 'button';
+            aiTriggerBox.className = 'siber-ai-fab';
+            aiTriggerBox.id = 'btnOpenAiModal';
+            aiTriggerBox.title = 'Buka S.I.B.E.R Cyber Assistant';
+            aiTriggerBox.innerHTML = `
+                <span class="fab-icon">🤖</span>
+            `;
+            
+            // Event saat tombol diklik untuk membuka Modal Chat
+            aiTriggerBox.addEventListener('click', () => {
+                core.openModal('🤖 S.I.B.E.R CYBER ASSISTANT', core.getForm('aiChat'), true);
+            });
+            
+            container.appendChild(aiTriggerBox);
+            
+            // Ambil Playlist secara Asinkron
+            fetchPlaylists(core, user.kelas, playlistBox);
+                        
         } else {
-            // Tampilan fallback jika belum ada user
             container.className = 'usr-card';
             container.innerHTML = `
-                <h2 class="usr-card-title">Three Laws Compliance Monitor</h2>
-                <p style="margin-bottom: 12px; color: var(--usr-text-muted);">
-                    Silakan lakukan Verifikasi Valuasi atau Registrasi untuk mengakses Kartu Siswa.
-                </p>
+                <h2 class="usr-card-title">Akses Dibatasi</h2>
+                <p style="color: var(--usr-text-muted);">Silakan verifikasi data terlebih dahulu.</p>
             `;
         }
-        
+                    
         return container;
     });
-
-    // Modul 2: Security Audit
+    
+    // 4. Register Modul Keamanan
     App.registerModule('security', 'Keamanan', (core) => {
         if (bgCanvas) bgCanvas.setMode('positronic');
         
@@ -318,11 +336,130 @@ document.addEventListener('DOMContentLoaded', () => {
                 Simulasi Pelanggaran
             </button>
         `;
-
+        
         container.querySelector('#btnAlert').addEventListener('click', () => {
             core.log('SEC', 'ALERT: Deteksi akses tidak dikenal pada Node 04!');
         });
-
+        
         return container;
-    });    
+    });
+    
+    // 5. Boot System Utama (Aman & Stabil)
+    try {
+        if (typeof App.init === 'function') {
+            await App.init();
+        }
+        
+        const savedUserData = App.getUserData();
+
+        if (savedUserData) {
+            App.loadModule('dashboard');
+        } else {
+            App.log('INFO', 'Auto-launching VERVAL Modal on system startup...');
+            App.openModal('VERVAL SEKTOR SIBER', App.getForm('verval'), false);
+        }
+    } catch (err) {
+        App.log('App Init Error:', `[${err}]`);
+    }
+
+    // Helper Fetch Playlist Asinkron (Hanya Judul Video)
+    async function fetchPlaylists(core, kelas, parentNode) {
+        const statusText = parentNode.querySelector('#playlistStatus');
+        const listGrid = parentNode.querySelector('#playlistContainer');
+        
+        try {
+            const response = await fetch(core.config.gasEndpointUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'GET_PLAYLISTS', kelas: kelas }),
+                redirect: 'follow'
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === 'SUCCESS' && result.data.length > 0) {
+                statusText.style.display = 'none';
+                
+                // PERBAIKAN: Hanya merender Judul tanpa deskripsi
+                listGrid.innerHTML = result.data.map(item => `
+                        <div class="usr-card" style="margin-bottom: 8px; padding: 10px 14px; border-left-color: var(--usr-neon-cyan);">
+                            <strong>${item.judul}</strong>
+                        </div>
+                    `).join('');
+            } else {
+                statusText.textContent = 'Tidak ada materi video untuk kelas ini.';
+            }
+        } catch (err) {
+            statusText.textContent = 'Gagal memuat playlist materi.';
+            core.log('SEC', `FETCH PLAYLIST ERROR: ${err.message}`);
+        }
+    }    
+    // Helper AI Chat Messaging Engine
+    function setupAiChat(core, parentNode) {
+        const inputField = parentNode.querySelector('#aiInputPrompt');
+        const btnSend = parentNode.querySelector('#btnSendAi');
+        const chatStream = parentNode.querySelector('#aiChatStream');
+        
+        const sendPrompt = async () => {
+            const promptText = inputField.value.trim();
+            if (!promptText) return;
+            
+            // 1. Tampilkan Pesan User di UI
+            const userMsg = document.createElement('div');
+            userMsg.style.marginBottom = '6px';
+            userMsg.style.color = '#fff';
+            userMsg.innerHTML = `<strong>[Kamu]:</strong> ${promptText}`;
+            chatStream.appendChild(userMsg);
+            
+            // Clear Input & Loading State
+            inputField.value = '';
+            btnSend.disabled = true;
+            btnSend.textContent = '...';
+            chatStream.scrollTop = chatStream.scrollHeight;
+            
+            try {
+                // 2. Kirim Request ke Backend GAS
+                const response = await fetch(core.config.gasEndpointUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'AI_CHAT', prompt: promptText }),
+                    redirect: 'follow'
+                });
+                
+                const result = await response.json();
+                
+                // 3. Tampilkan Balasan AI
+                const aiMsg = document.createElement('div');
+                aiMsg.style.marginBottom = '6px';
+                aiMsg.style.color = 'var(--usr-neon-cyan)';
+                
+                if (result.status === 'SUCCESS') {
+                    aiMsg.innerHTML = `<strong>[S.I.B.E.R AI]:</strong> ${result.reply}`;
+                    core.log('INFO', `AI Response received for prompt: "${promptText.substring(0, 15)}..."`);
+                } else {
+                    aiMsg.style.color = 'var(--usr-danger)';
+                    aiMsg.innerHTML = `<strong>[SYSTEM ERROR]:</strong> ${result.message || 'Gagal merespon.'}`;
+                }
+                
+                chatStream.appendChild(aiMsg);
+                
+            } catch (err) {
+                const errorMsg = document.createElement('div');
+                errorMsg.style.color = 'var(--usr-danger)';
+                errorMsg.innerHTML = `<strong>[NETWORK ERROR]:</strong> Tidak dapat terhubung ke AI Engine.`;
+                chatStream.appendChild(errorMsg);
+                core.log('SEC', `AI CHAT ERROR: ${err.message}`);
+            } finally {
+                btnSend.disabled = false;
+                btnSend.textContent = 'Kirim';
+                chatStream.scrollTop = chatStream.scrollHeight;
+            }
+        };
+        
+        // Event Listener Klik & Enter Key
+        btnSend.addEventListener('click', sendPrompt);
+        inputField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendPrompt();
+        });
+    }    
 });
