@@ -1,17 +1,25 @@
+// ./js/main.js
+
 /**
 * Core Application Architecture - USR System
 * Mengatur Komunikasi Antar Modul, State, Audit Logging, dan Background Canvas.
 */
 
 // FIX 1: Pastikan menyertakan `.js` dan sesuaikan jalur folder file Anda
-import { initIRobotTheme } from "./background-animation.js";
+// import { initIRobotTheme } from "./background-animation.js"; <= diganti background statis
+import { initBackgroundAnimation } from "./background-animation.js";
 import { renderVervalForm } from "./vervalUser.js";
+import { renderRegisterForm } from "./regSiswa.js";
+import { renderStudentCard } from "./userCard.js";
+import { renderPlaylistModule } from "./playlistForm.js";
+import { renderAiChatForm } from "./aiChatForm.js"
 
 class USRCore {
     constructor() {
         this.config = {
-            // Rubah ke '/api/verval'
-            gasEndpointUrl: '/api/verval'
+            // webhost '/api/verval'
+            // localhost 'https://ruangbelajar-ironan.vercel.app/api/verval 
+            gasEndpointUrl: 'https://ruangbelajar-ironan.vercel.app/api/verval'
         };
 
         this.modules = new Map();
@@ -35,6 +43,12 @@ class USRCore {
         
         // Flag untuk status modal
         this.isModalClosable = true;
+
+        this.forms = new Map(); // Tempat menyimpan registry form
+        
+        this.currentUser = JSON.parse(localStorage.getItem('siber_user')) || null;
+        //this.currentUser = localStorage.getItem('siber_user') || null;
+        //console.log(this.currentUser);
     }
 
     // Inisialisasi Aplikasi
@@ -172,6 +186,7 @@ class USRCore {
             }
             idx++;
         });
+        
     }
 
     // Centralized Logging Engine
@@ -205,76 +220,109 @@ class USRCore {
         this.domLogStream.scrollTop = this.domLogStream.scrollHeight;
         this.domLogCount.textContent = `Logs: ${this.logCounter}`;
     }
+
+    generateStudentKey() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let result = '';
+        for (let i = 0; i < 5; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    }
+
+    // Method untuk mendaftarkan form
+    registerForm(name, renderFn) {
+        this.forms.set(name, renderFn);
+        this.log('INFO', `Registrasi Modul [${name}] berhasil`);
+    }
+
+    // Method untuk mengambil form berdasarkan nama
+    getForm(name) {
+        this.log('INFO', `Load [${name}]`);
+        return this.forms.get(name);
+    }
+    
+    // Simpan data profil siswa ke State & LocalStorage
+    setUserData(userData) {
+        this.currentUser = userData;
+        localStorage.setItem('siber_user', JSON.stringify(userData));
+        this.log('INFO', `User State Updated: [${userData.nama}] (${userData.status})`);
+    }
+    
+    // Ambil data profil
+    getUserData() {
+        return this.currentUser;
+    }
 }
 
 // 1. Inisialisasi Core Engine
 const App = new USRCore();
+
 /* ==========================================================================
    AUTO-EXECUTE / AUTORUN ON LOAD
    ========================================================================== */
-document.addEventListener('DOMContentLoaded', () => {
-    App.init();
-    App.log('INFO', 'Auto-launching VERVAL Modal on system startup...');
-    App.openModal('VERVAL SEKTOR SIBER', renderVervalForm, true);
-
-    // 2. Inisialisasi Canvas Background Animasi
-    const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
-
-    /* ==========================================================================
-    REGISTRASI MODUL
-    ========================================================================== */
-
-    // Modul 1: System Dashboard
-    // Modul Dashboard dengan Tombol Pemicu Modal
-    /*
-    App.registerModule('verval', 'Verval', (core) => {
-        if (bgCanvas) bgCanvas.setMode('neural');
-
-        const container = document.createElement('div');
-        container.className = 'usr-card';
-        container.innerHTML = `
-            <h2 class="usr-card-title">VERVAL SEKTOR SIBER</h2>
-            <p style="margin-bottom: 16px; color: var(--usr-text-muted);">
-                Klik tombol di bawah untuk membuka form verifikasi keanggotaan Sektor Siber.
-            </p>
-            <button id="btnOpenVerval" class="usr-nav-btn" style="background: var(--usr-neon-cyan); color: #000; font-weight: bold;">
-                Buka Form VERVAL
-            </button>
-        `;
-
-        container.querySelector('#btnOpenVerval').addEventListener('click', () => {
-            core.openModal('VERVAL SEKTOR SIBER', renderVervalForm, false);
-        });
-
-        return container;
-    });*/
-
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Inisialisasi Canvas Background
+    //const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
+    initBackgroundAnimation();
+    
+    // 2. Register Form
+    App.registerForm('verval', renderVervalForm);
+    App.registerForm('register', renderRegisterForm);
+    App.registerForm('aiChat', renderAiChatForm);
+    App.registerForm('video', renderPlaylistModule);
+    
+    // 3. Register Modul Dashboard (Kartu + Video + AI)
+    // Register Modul Dashboard dengan Lazy Loading Playlist
     App.registerModule('dashboard', 'Dashboard', (core) => {
-        if (bgCanvas) bgCanvas.setMode('neural');
-
+        //if (bgCanvas) bgCanvas.setMode('neural');
+        
         const container = document.createElement('div');
-        container.className = 'usr-card';
-        container.innerHTML = `
-            <h2 class="usr-card-title">Three Laws Compliance Monitor</h2>
-            <p style="margin-bottom: 12px; color: var(--usr-text-muted);">
-                Sistem dalam kondisi normal. Seluruh unit terhubung ke server pusat USR.
-            </p>
-            <button id="btnDiagnostic" class="usr-nav-btn">
-                Jalankan Diagnostik
-            </button>
-        `;
-
-        container.querySelector('#btnDiagnostic').addEventListener('click', () => {
-            core.log('INFO', 'Running Diagnostic Routine...');
-            core.log('INFO', 'Diagnostic Complete: Integrity 100%.');
-        });
-
+        const user = core.getUserData();
+        
+        if (user) {
+            container.className = 'dashboard-layout';
+            
+            // 1. Render Kartu Identitas Siswa
+            const cardNode = renderStudentCard(user);
+            container.appendChild(cardNode);
+            
+            // 2. Render Modul Video Pembelajaran (Modular)
+            const { playlistCard, videoFab } = renderPlaylistModule(core, user);
+            container.appendChild(playlistCard);
+            container.appendChild(videoFab);
+            
+            // 3. Tombol Pemicu Floating AI Chat (Versi Ringkas)
+            const aiTriggerBox = document.createElement('button');
+            aiTriggerBox.type = 'button';
+            aiTriggerBox.className = 'siber-ai-fab';
+            aiTriggerBox.id = 'btnOpenAiModal';
+            aiTriggerBox.title = 'Buka S.I.B.E.R Cyber Assistant';
+            aiTriggerBox.innerHTML = `
+                <span class="fab-icon">🤖</span>
+            `;
+            
+            // Event saat tombol diklik untuk membuka Modal Chat
+            aiTriggerBox.addEventListener('click', () => {
+                core.openModal('🤖 S.I.B.E.R CYBER ASSISTANT', core.getForm('aiChat'), true);
+            });
+            
+            container.appendChild(aiTriggerBox);
+            
+        } else {
+            container.className = 'usr-card';
+            container.innerHTML = `
+                <h2 class="usr-card-title">Akses Dibatasi</h2>
+                <p style="color: var(--usr-text-muted);">Silakan verifikasi data terlebih dahulu.</p>
+            `;
+        }
+                    
         return container;
     });
-
-    // Modul 2: Security Audit
+    
+    // 4. Register Modul Keamanan
     App.registerModule('security', 'Keamanan', (core) => {
-        if (bgCanvas) bgCanvas.setMode('positronic');
+        //if (bgCanvas) bgCanvas.setMode('positronic');
         
         const container = document.createElement('div');
         container.className = 'usr-card';
@@ -286,11 +334,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 Simulasi Pelanggaran
             </button>
         `;
-
+        
         container.querySelector('#btnAlert').addEventListener('click', () => {
             core.log('SEC', 'ALERT: Deteksi akses tidak dikenal pada Node 04!');
         });
-
+        
         return container;
-    });    
+    });
+    
+    // 5. Boot System Utama (Aman & Stabil)
+    try {
+        if (typeof App.init === 'function') {
+            await App.init();
+        }
+        
+        const savedUserData = App.getUserData();
+
+        if (savedUserData) {
+            App.loadModule('dashboard');
+        } else {
+            App.log('INFO', 'Auto-launching VERVAL Modal on system startup...');
+            App.openModal('VERVAL SEKTOR SIBER', App.getForm('verval'), false);
+        }
+    } catch (err) {
+        App.log('App Init Error:', `[${err}]`);
+    }
 });

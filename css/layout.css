@@ -1,0 +1,461 @@
+/* ==========================================================================
+   S.I.B.E.R CORE LAYOUT & RESPONSIVE GRID
+   ========================================================================== */
+
+/* Background Canvas Layer */
+#neuralPositronic {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Base Body Grid System */
+body {
+    font-family: var(--font-main);
+    background-color: transparent;
+    color: var(--usr-text);
+    height: 100vh;
+    height: 100dvh; /* Support Dynamic Viewport Mobile */
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+        "header"
+        "log"
+        "workspace";
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+/* Header HUD */
+.usr-header {
+    grid-area: header;
+    background-color: var(--usr-primary);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: 2px solid var(--usr-neon-cyan);
+    box-shadow: 0 2px 12px rgba(0, 240, 255, 0.2);
+    gap: 12px;
+    z-index: 20;
+}
+
+/* Container Utama Brand Header */
+.usr-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 1.25rem;
+    color: #FFFFFF;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+}
+
+/* Badge di bawah Judul */
+.usr-brand-badge {
+    background-color: var(--usr-neon-cyan);
+    color: #000000;
+    padding: 2px 6px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    border-radius: 2px;
+    box-shadow: var(--glow-cyan-sm);
+    white-space: nowrap;
+    width: fit-content;
+}
+
+/* Status Indikator Sistem */
+.usr-status {
+    font-size: 0.8rem;
+    color: var(--usr-neon-green);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(0, 255, 102, 0.4);
+    margin-left: auto;
+}
+
+/* Titik Hijau Indikator Status */
+.usr-status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--usr-neon-green);
+    border-radius: 50%;
+    box-shadow: var(--glow-green-sm);
+}
+
+/* Workspace Container */
+.usr-workspace {
+    grid-area: workspace;
+    padding: 20px;
+    padding-bottom: 80px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   DESKTOP & TABLET LANDSCAPE GRID (2 COLUMNS)
+   ========================================================================== */
+
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 420px 1fr; /* Kolom kiri (ID Card), kanan (Video/Chat) */
+    gap: 24px;
+    align-items: start;
+    height: calc(100vh - 120px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* SIBER ID Card Optimization */
+.siber-id-card {
+    border: 1px solid var(--usr-neon-cyan);
+    background: linear-gradient(135deg, rgba(10, 25, 47, 0.15), rgba(5, 12, 24, 0.15));
+    box-shadow: var(--glow-cyan-lg);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    border-radius: 4px;
+}
+
+.siber-watermark {
+    position: absolute;
+    right: -5px;
+    bottom: -20px;
+    opacity: 0.05;
+    font-size: 7.5rem;
+    font-weight: 900;
+    font-family: var(--font-mono);
+    pointer-events: none;
+    user-select: none;
+}
+
+.siber-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    border-bottom: 1px dashed var(--usr-border);
+    padding-bottom: 10px;
+}
+
+.siber-header-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.siber-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.siber-title {
+    color: var(--usr-neon-cyan);
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    font-weight: bold;
+}
+
+.siber-subtext {
+    font-size: 0.65rem;
+    color: var(--usr-text-muted);
+    letter-spacing: 1px;
+}
+
+.siber-badge {
+    border: 1px solid var(--usr-neon-cyan);
+    color: var(--usr-neon-cyan);
+    font-size: 0.65rem;
+    padding: 4px 8px;
+    border-radius: 2px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-family: var(--font-mono);
+}
+
+.siber-btn-logout {
+    background: rgba(255, 0, 85, 0.08);
+    border: 1px solid rgba(255, 0, 85, 0.4);
+    color: var(--usr-neon-red);
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.siber-btn-logout:hover {
+    background: rgba(255, 0, 85, 0.25);
+    border-color: var(--usr-neon-red);
+    box-shadow: var(--glow-red-sm);
+    color: #fff;
+}
+
+.siber-card-body {
+    display: grid;
+    grid-template-columns: 75px 1fr;
+    gap: 14px;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.siber-avatar-box {
+    width: 75px;
+    height: 85px;
+    border: 1px solid var(--usr-border);
+    background: rgba(0, 240, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.siber-avatar-icon { font-size: 1.8rem; }
+
+.siber-avatar-label {
+    font-size: 0.55rem;
+    color: var(--usr-neon-cyan);
+    font-family: var(--font-mono);
+    margin-top: 4px;
+}
+
+.siber-card-footer {
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.siber-issued {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--usr-text-muted);
+}
+
+.siber-barcode {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    color: var(--usr-neon-cyan);
+    opacity: 0.7;
+}
+
+/* ==========================================================================
+   PENATAAN BIODATA ID CARD
+   ========================================================================== */
+
+.siber-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.siber-info-item {
+    display: grid;
+    grid-template-columns: 65px 1fr;
+    align-items: center;
+    gap: 8px;
+}
+
+.siber-info-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+}
+
+.siber-key {
+    color: var(--usr-neon-cyan, #00f0ff);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.siber-value-bold {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.siber-value {
+    color: var(--usr-text, #ccd6f6);
+    font-size: 0.8rem;
+}
+
+/* AI Chat Box & Content Section */
+.ai-chat-card,
+.module-video-card {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+}
+
+/* Tombol Floating Video (Sembunyi secara Default di Desktop) */
+.btn-floating-video {
+    display: none;
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINT (TABLET PORTRAIT & MOBILE <= 768px)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .usr-workspace {
+        padding: 12px;
+        overflow-y: auto;
+    }
+
+    /* Stack Vertikal Single Column */
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+        gap: 16px;
+    }
+
+    /* Penyesuaian Header Mobile */
+    .usr-header {
+        padding: 8px 12px;
+        flex-wrap: wrap;
+    }
+
+    .usr-brand {
+        font-size: 1rem;
+    }
+
+    .usr-nav {
+        order: 3;
+        width: 100%;
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding-top: 4px;
+    }
+
+    .usr-nav-btn {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    /* ----------------------------------------------------------------------
+       SISTEM MODAL MOBILE UNTUK MODUL VIDEO PEMBELAJARAN
+       ---------------------------------------------------------------------- */
+    
+    /* Tombol Pemicu Mengapung di Kiri Bawah Mobile */
+    .btn-floating-video {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--usr-primary, #0a192f);
+        border: 2px solid var(--usr-neon-cyan, #00f0ff);
+        color: var(--usr-neon-cyan, #00f0ff);
+        font-size: 1.5rem;
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        cursor: pointer;
+        z-index: 999;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-floating-video:active {
+        transform: scale(0.9);
+        box-shadow: 0 0 25px rgba(0, 240, 255, 0.8);
+    }
+
+    /* Mengubah Modul Video Menjadi Pop-up Modal di Mobile */
+    .ai-chat-card,
+    .module-video-card {
+        display: none; /* Sembunyi secara default */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 500px;
+        max-height: 80vh;
+        background: rgba(10, 25, 47, 0.98);
+        border: 2px solid var(--usr-neon-cyan);
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+        border-radius: 8px;
+        padding: 16px;
+        z-index: 1000;
+        overflow-y: auto;
+    }
+
+    /* Class Aktivasi Modal via JavaScript */
+    .ai-chat-card.active,
+    .module-video-card.active,
+    .ai-chat-card.show,
+    .module-video-card.show {
+        display: flex !important;
+        animation: cyberModalFade 0.3s ease-out forwards;
+    }
+}
+
+/* Animasi Kemunculan Modal Cyberpunk */
+@keyframes cyberModalFade {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Custom Scrollbar Theme */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--usr-log-bg, #050c18);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 240, 255, 0.4);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--usr-neon-cyan, #00f0ff);
+}

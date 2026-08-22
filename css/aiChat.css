@@ -1,0 +1,131 @@
+/* ==========================================================================
+   S.I.B.E.R AI FLOATING BUTTON & MODAL
+   ========================================================================== */
+
+/* ==========================================================================
+   FLOATING ACTION BUTTON (FAB) AI CHAT - MINIMALIS
+   ========================================================================== */
+
+.siber-ai-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    left: auto;
+    z-index: 999;
+
+    /* Membentuk lingkaran sempurna */
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+
+    /* Tampilan Cyberpunk */
+    background: rgba(5, 12, 24, 0.9);
+    border: 2px solid var(--usr-neon-cyan, #00f0ff);
+    color: #ffffff;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    /* Efek Glow & Transition */
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.siber-ai-fab .fab-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Efek Sorotan Kursor (Hover) */
+.siber-ai-fab:hover {
+    transform: scale(1.1);
+    background: var(--usr-neon-cyan, #00f0ff);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.8);
+}
+
+@keyframes siberPulse {
+    0% {
+        box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+        border-color: rgba(0, 240, 255, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 22px rgba(0, 240, 255, 0.8), 0 0 35px rgba(0, 240, 255, 0.3);
+        border-color: #00f0ff;
+    }
+}
+
+/* Modal Overlay Backdrop */
+.siber-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    background: rgba(3, 5, 12, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    padding: 16px;
+}
+
+.siber-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Modal Content Box */
+.siber-modal-content {
+    width: 100%;
+    max-width: 600px;
+    height: 80vh;
+    max-height: 650px;
+    display: flex;
+    flex-direction: column;
+    background: #050811;
+    border: 1px solid var(--usr-neon-cyan, #00f0ff);
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.25);
+    overflow: hidden;
+}
+
+/* Responsif Mobile untuk Modal & FAB */
+@media (max-width: 768px) {
+    .siber-ai-fab {
+        position:fixed;
+        bottom: 16px;
+        right: 16px;
+        left: auto;
+        /* Memanjang penuh di bagian bawah HP */
+        width: 48px;
+        height: 48px;
+        max-width: none;
+    }
+
+    .siber-ai-fab p {
+        display: none;
+        /* Menyembunyikan deskripsi panjang di HP agar hemat ruang */
+    }
+    
+    .fab-label {
+        display: none; /* Sembunyikan label teks di HP, tampilkan ikon robot saja */
+    }
+
+    .siber-modal-overlay {
+        padding: 0;
+    }
+
+    .siber-modal-content {
+        height: 100dvh;
+        max-height: 100dvh;
+        max-width: 100%;
+        border-radius: 0;
+        border: none;
+    }
+}

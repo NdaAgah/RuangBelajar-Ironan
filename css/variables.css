@@ -1,0 +1,34 @@
+/* === USR DESIGN SYSTEM VARIABLES === */
+:root {
+    --usr-bg: #0A0E17;
+    /* --usr-card-bg: #121824; */
+    --usr-card-bg: rgba(18, 24, 36, 0.15);
+    --usr-primary: #050811;
+    
+    /* NEON PALETTE */
+    --usr-neon-cyan: #00F0FF;
+    --usr-neon-amber: #FFB800;
+    --usr-neon-green: #00FF66;
+    --usr-neon-red: #FF0055;
+    
+    --usr-border: #1E293B;
+    --usr-text: #E2E8F0;
+    --usr-text-muted: #94A3B8;
+    --usr-log-bg: #030712;
+    --usr-log-text: #38BDF8;
+    
+    --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "Cascadia Code", Consolas, Monaco, monospace;
+
+    /* GLOW EFFECTS */
+    --glow-cyan-sm: 0 0 8px rgba(0, 240, 255, 0.4);
+    --glow-cyan-lg: 0 0 15px rgba(0, 240, 255, 0.25);
+    --glow-red-sm: 0 0 8px rgba(255, 0, 85, 0.5);
+    --glow-green-sm: 0 0 8px rgba(0, 255, 102, 0.6);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
