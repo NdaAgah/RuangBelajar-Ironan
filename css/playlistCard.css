@@ -39,3 +39,66 @@
     border: none;
     /* display: block; */
 }
+
+/* ==========================================
+   TAMPILAN RESPONSIF MOBILE (Max Width 768px)
+   ========================================== */
+@media (max-width: 768px) {
+  /* 1. Container Playlist dengan Internal Scroll */
+  #playlistContainer, 
+  .playlist-grid {
+    max-height: 400px; /* Batasi tinggi agar tidak memenuhi layar mobile */
+    overflow-y: auto;  /* Aktifkan scroll vertikal internal */
+    padding-right: 6px;
+    gap: 8px;          /* Jarak antar item playlist */
+  }
+
+  /* Kustomisasi Scrollbar agar tampil gaya Cyberpunk/Neon */
+  #playlistContainer::-webkit-scrollbar {
+    width: 4px;
+  }
+  #playlistContainer::-webkit-scrollbar-thumb {
+    background: var(--usr-neon-cyan, #00f0ff);
+    border-radius: 4px;
+  }
+
+  /* 2. Kartu Playlist Mode Compact (Horizontal Layout) */
+  .usr-card {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    padding: 10px !important;
+    margin-bottom: 8px !important;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+  }
+
+  /* Efek Sentuh saat Di-tap */
+  .usr-card:active {
+    transform: scale(0.98);
+    background: rgba(0, 240, 255, 0.15);
+  }
+
+  /* 3. Penyesuaian Ukuran Video / Thumbnail di Mobile */
+  .usr-card .siber-video-wrapper {
+    width: 110px !important;  /* Lebar tetap thumbnail di sebelah kiri */
+    min-width: 110px;
+    height: 62px !important;  /* Menjaga rasio 16:9 */
+    margin: 0 !important;
+  }
+
+  /* 4. Teks Judul & Informasi Video */
+  .usr-card .siber-card-body,
+  .usr-card h4,
+  .usr-card p {
+    font-size: 0.85rem !important;
+    line-height: 1.2;
+    margin: 0;
+    /* Trik agar teks panjang terpotong otomatis dengan titik-titik (...) */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

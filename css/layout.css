@@ -49,9 +49,9 @@ body {
 /* Container Utama Brand Header */
 .usr-brand {
     display: flex;
-    flex-direction: column;    /* Menyusun judul dan badge secara vertikal (atas-bawah) */
-    align-items: flex-start;  /* Menjaga badge rata kiri dengan teks judul */
-    gap: 4px;                  /* Jarak rapat antara teks judul dan badge di bawahnya */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
     font-weight: 700;
     letter-spacing: 1px;
     font-size: 1.25rem;
@@ -69,7 +69,7 @@ body {
     border-radius: 2px;
     box-shadow: var(--glow-cyan-sm);
     white-space: nowrap;
-    width: fit-content;        /* Memastikan lebar badge pas sesuai isi teksnya */
+    width: fit-content;
 }
 
 /* Status Indikator Sistem */
@@ -82,8 +82,7 @@ body {
     font-weight: 600;
     letter-spacing: 1px;
     text-shadow: 0 0 5px rgba(0, 255, 102, 0.4);
-    
-    margin-left: auto;         /* Mendorong elemen status terkunci rapat di sebelah kanan */
+    margin-left: auto;
 }
 
 /* Titik Hijau Indikator Status */
@@ -110,10 +109,9 @@ body {
    DESKTOP & TABLET LANDSCAPE GRID (2 COLUMNS)
    ========================================================================== */
 
-/* Grid Desktop & Tablet Landscape */
 .dashboard-layout {
     display: grid;
-    grid-template-columns: 450px 1fr; /* Kolom kiri 340px, kanan fleksibel */
+    grid-template-columns: 420px 1fr; /* Kolom kiri (ID Card), kanan (Video/Chat) */
     gap: 24px;
     align-items: start;
     height: calc(100vh - 120px);
@@ -129,14 +127,12 @@ body {
     position: relative;
     overflow: hidden;
     width: 100%;
-    max-height: none;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 16px;
     border-radius: 4px;
-    box-sizing: border-box;
 }
 
 .siber-watermark {
@@ -245,22 +241,6 @@ body {
     margin-top: 4px;
 }
 
-.siber-info-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    font-size: 0.85rem;
-}
-
-.siber-key {
-    color: var(--usr-neon-cyan);
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
-}
-
-.siber-value-bold { color: #ffffff; font-weight: 600; }
-.siber-value { color: var(--usr-text); }
-
 .siber-card-footer {
     padding-top: 8px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -284,10 +264,9 @@ body {
 }
 
 /* ==========================================================================
-   PENATAAN BIODATA ID CARD (LAYOUT GRID)
+   PENATAAN BIODATA ID CARD
    ========================================================================== */
 
-/* Kontainer utama biodata */
 .siber-info-grid {
     display: flex;
     flex-direction: column;
@@ -295,32 +274,20 @@ body {
     width: 100%;
 }
 
-/* Baris tunggal (KEY, NAMA, SEKOLAH) - Membagi Label dan Nilai */
 .siber-info-item {
     display: grid;
-    grid-template-columns: 35px 1fr; /* 65px untuk lebar Label, sisa ruang untuk Nilai */
+    grid-template-columns: 65px 1fr;
     align-items: center;
     gap: 8px;
 }
 
-/* Baris ganda khusus TINGKAT & KELAS agar sejajar menyamping */
 .siber-info-row {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Membagi 2 kolom sama lebar */
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
     width: 100%;
 }
 
-/* Format teks Label (Sisi Kiri) */
-.siber-subtext {
-    font-family: var(--font-mono, monospace);
-    font-size: 0.65rem;
-    color: var(--usr-text-muted, #8892b0);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-}
-
-/* Format teks Nilai (Sisi Kanan) */
 .siber-key {
     color: var(--usr-neon-cyan, #00f0ff);
     font-family: var(--font-mono, monospace);
@@ -334,7 +301,7 @@ body {
     font-size: 0.82rem;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Mengatur nama panjang agar tidak merusak kartu */
+    text-overflow: ellipsis;
 }
 
 .siber-value {
@@ -342,9 +309,9 @@ body {
     font-size: 0.8rem;
 }
 
-
 /* AI Chat Box & Content Section */
-.ai-chat-card {
+.ai-chat-card,
+.module-video-card {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
@@ -354,12 +321,16 @@ body {
     min-height: 0;
 }
 
+/* Tombol Floating Video (Sembunyi secara Default di Desktop) */
+.btn-floating-video {
+    display: none;
+}
+
 /* ==========================================================================
    RESPONSIVE BREAKPOINT (TABLET PORTRAIT & MOBILE <= 768px)
    ========================================================================== */
 
 @media (max-width: 768px) {
-    /* Auto Scroll Workspace pada Mobile */
     .usr-workspace {
         padding: 12px;
         overflow-y: auto;
@@ -370,12 +341,6 @@ body {
         grid-template-columns: 1fr;
         height: auto;
         gap: 16px;
-    }
-
-    /* Penyesuaian Kartu Identitas Mobile */
-    .siber-id-card {
-        max-height: none;
-        height: auto;
     }
 
     /* Penyesuaian Header Mobile */
@@ -403,6 +368,77 @@ body {
         white-space: nowrap;
         flex-shrink: 0;
     }
+
+    /* ----------------------------------------------------------------------
+       SISTEM MODAL MOBILE UNTUK MODUL VIDEO PEMBELAJARAN
+       ---------------------------------------------------------------------- */
+    
+    /* Tombol Pemicu Mengapung di Kiri Bawah Mobile */
+    .btn-floating-video {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--usr-primary, #0a192f);
+        border: 2px solid var(--usr-neon-cyan, #00f0ff);
+        color: var(--usr-neon-cyan, #00f0ff);
+        font-size: 1.5rem;
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        cursor: pointer;
+        z-index: 999;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-floating-video:active {
+        transform: scale(0.9);
+        box-shadow: 0 0 25px rgba(0, 240, 255, 0.8);
+    }
+
+    /* Mengubah Modul Video Menjadi Pop-up Modal di Mobile */
+    .ai-chat-card,
+    .module-video-card {
+        display: none; /* Sembunyi secara default */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 500px;
+        max-height: 80vh;
+        background: rgba(10, 25, 47, 0.98);
+        border: 2px solid var(--usr-neon-cyan);
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+        border-radius: 8px;
+        padding: 16px;
+        z-index: 1000;
+        overflow-y: auto;
+    }
+
+    /* Class Aktivasi Modal via JavaScript */
+    .ai-chat-card.active,
+    .module-video-card.active,
+    .ai-chat-card.show,
+    .module-video-card.show {
+        display: flex !important;
+        animation: cyberModalFade 0.3s ease-out forwards;
+    }
+}
+
+/* Animasi Kemunculan Modal Cyberpunk */
+@keyframes cyberModalFade {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 /* Custom Scrollbar Theme */
@@ -412,7 +448,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--usr-log-bg);
+    background: var(--usr-log-bg, #050c18);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -421,5 +457,5 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--usr-neon-cyan);
+    background: var(--usr-neon-cyan, #00f0ff);
 }

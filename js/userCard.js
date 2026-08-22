@@ -94,6 +94,7 @@ export function renderStudentCard(userData, core = null) {
                     core.log('SEC', 'User digital identity cleared by operator.');
                 }
                 localStorage.removeItem('siber_user');
+                localStorage.removeItem('siber_playlists');
                 window.location.reload();
             }
         });

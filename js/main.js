@@ -1,3 +1,5 @@
+// ./js/main.js
+
 /**
 * Core Application Architecture - USR System
 * Mengatur Komunikasi Antar Modul, State, Audit Logging, dan Background Canvas.
@@ -8,6 +10,7 @@ import { initIRobotTheme } from "./background-animation.js";
 import { renderVervalForm } from "./vervalUser.js";
 import { renderRegisterForm } from "./regSiswa.js";
 import { renderStudentCard } from "./userCard.js";
+import { renderPlaylistModule } from "./playlistForm.js";
 import { renderAiChatForm } from "./aiChatForm.js"
 
 class USRCore {
@@ -15,7 +18,7 @@ class USRCore {
         this.config = {
             // webhost '/api/verval'
             // localhost 'https://ruangbelajar-ironan.vercel.app/api/verval 
-            gasEndpointUrl: '/api/verval'
+            gasEndpointUrl: 'https://ruangbelajar-ironan.vercel.app/api/verval'
         };
 
         this.modules = new Map();
@@ -265,6 +268,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     App.registerForm('verval', renderVervalForm);
     App.registerForm('register', renderRegisterForm);
     App.registerForm('aiChat', renderAiChatForm);
+    App.registerForm('video', renderPlaylistModule);
     
     // 3. Register Modul Dashboard (Kartu + Video + AI)
     // Register Modul Dashboard dengan Lazy Loading Playlist
@@ -281,16 +285,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             const cardNode = renderStudentCard(user);
             container.appendChild(cardNode);
             
-            // 2. Kontainer Playlist Video (Minimalis Tanpa Deskripsi)
-            const playlistBox = document.createElement('div');
-            playlistBox.className = 'usr-card';
-            playlistBox.innerHTML = `
-                <h3 class="usr-card-title">📚 Modul Video Pembelajaran</h3>
-                <p id="playlistStatus" style="color: var(--usr-text-muted);">Memuat daftar materi...</p>
-                <div id="playlistContainer" class="playlist-grid"></div>
-            `;
-            container.appendChild(playlistBox);
-
+            // 2. Render Modul Video Pembelajaran (Modular)
+            const { playlistCard, videoFab } = renderPlaylistModule(core, user);
+            container.appendChild(playlistCard);
+            container.appendChild(videoFab);
+            
             // 3. Tombol Pemicu Floating AI Chat (Versi Ringkas)
             const aiTriggerBox = document.createElement('button');
             aiTriggerBox.type = 'button';
@@ -308,9 +307,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             container.appendChild(aiTriggerBox);
             
-            // Ambil Playlist secara Asinkron
-            fetchPlaylists(core, user.kelas, playlistBox);
-                        
         } else {
             container.className = 'usr-card';
             container.innerHTML = `
@@ -361,105 +357,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (err) {
         App.log('App Init Error:', `[${err}]`);
     }
-
-    // Helper Fetch Playlist Asinkron (Hanya Judul Video)
-    async function fetchPlaylists(core, kelas, parentNode) {
-        const statusText = parentNode.querySelector('#playlistStatus');
-        const listGrid = parentNode.querySelector('#playlistContainer');
-        
-        try {
-            const response = await fetch(core.config.gasEndpointUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: 'GET_PLAYLISTS', kelas: kelas }),
-                redirect: 'follow'
-            });
-            
-            const result = await response.json();
-            
-            if (result.status === 'SUCCESS' && result.data.length > 0) {
-                statusText.style.display = 'none';
-                
-                // PERBAIKAN: Hanya merender Judul tanpa deskripsi
-                listGrid.innerHTML = result.data.map(item => `
-                        <div class="usr-card" style="margin-bottom: 8px; padding: 10px 14px; border-left-color: var(--usr-neon-cyan);">
-                            <strong>${item.judul}</strong>
-                        </div>
-                    `).join('');
-            } else {
-                statusText.textContent = 'Tidak ada materi video untuk kelas ini.';
-            }
-        } catch (err) {
-            statusText.textContent = 'Gagal memuat playlist materi.';
-            core.log('SEC', `FETCH PLAYLIST ERROR: ${err.message}`);
-        }
-    }    
-    // Helper AI Chat Messaging Engine
-    function setupAiChat(core, parentNode) {
-        const inputField = parentNode.querySelector('#aiInputPrompt');
-        const btnSend = parentNode.querySelector('#btnSendAi');
-        const chatStream = parentNode.querySelector('#aiChatStream');
-        
-        const sendPrompt = async () => {
-            const promptText = inputField.value.trim();
-            if (!promptText) return;
-            
-            // 1. Tampilkan Pesan User di UI
-            const userMsg = document.createElement('div');
-            userMsg.style.marginBottom = '6px';
-            userMsg.style.color = '#fff';
-            userMsg.innerHTML = `<strong>[Kamu]:</strong> ${promptText}`;
-            chatStream.appendChild(userMsg);
-            
-            // Clear Input & Loading State
-            inputField.value = '';
-            btnSend.disabled = true;
-            btnSend.textContent = '...';
-            chatStream.scrollTop = chatStream.scrollHeight;
-            
-            try {
-                // 2. Kirim Request ke Backend GAS
-                const response = await fetch(core.config.gasEndpointUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: 'AI_CHAT', prompt: promptText }),
-                    redirect: 'follow'
-                });
-                
-                const result = await response.json();
-                
-                // 3. Tampilkan Balasan AI
-                const aiMsg = document.createElement('div');
-                aiMsg.style.marginBottom = '6px';
-                aiMsg.style.color = 'var(--usr-neon-cyan)';
-                
-                if (result.status === 'SUCCESS') {
-                    aiMsg.innerHTML = `<strong>[S.I.B.E.R AI]:</strong> ${result.reply}`;
-                    core.log('INFO', `AI Response received for prompt: "${promptText.substring(0, 15)}..."`);
-                } else {
-                    aiMsg.style.color = 'var(--usr-danger)';
-                    aiMsg.innerHTML = `<strong>[SYSTEM ERROR]:</strong> ${result.message || 'Gagal merespon.'}`;
-                }
-                
-                chatStream.appendChild(aiMsg);
-                
-            } catch (err) {
-                const errorMsg = document.createElement('div');
-                errorMsg.style.color = 'var(--usr-danger)';
-                errorMsg.innerHTML = `<strong>[NETWORK ERROR]:</strong> Tidak dapat terhubung ke AI Engine.`;
-                chatStream.appendChild(errorMsg);
-                core.log('SEC', `AI CHAT ERROR: ${err.message}`);
-            } finally {
-                btnSend.disabled = false;
-                btnSend.textContent = 'Kirim';
-                chatStream.scrollTop = chatStream.scrollHeight;
-            }
-        };
-        
-        // Event Listener Klik & Enter Key
-        btnSend.addEventListener('click', sendPrompt);
-        inputField.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendPrompt();
-        });
-    }    
 });
