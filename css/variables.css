@@ -1,7 +1,8 @@
 /* === USR DESIGN SYSTEM VARIABLES === */
 :root {
     --usr-bg: #0A0E17;
-    --usr-card-bg: #121824;
+    /* --usr-card-bg: #121824; */
+    --usr-card-bg: rgba(18, 24, 36, 0.15);
     --usr-primary: #050811;
     
     /* NEON PALETTE */

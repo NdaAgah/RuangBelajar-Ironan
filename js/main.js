@@ -6,7 +6,8 @@
 */
 
 // FIX 1: Pastikan menyertakan `.js` dan sesuaikan jalur folder file Anda
-import { initIRobotTheme } from "./background-animation.js";
+// import { initIRobotTheme } from "./background-animation.js"; <= diganti background statis
+import { initBackgroundAnimation } from "./background-animation.js";
 import { renderVervalForm } from "./vervalUser.js";
 import { renderRegisterForm } from "./regSiswa.js";
 import { renderStudentCard } from "./userCard.js";
@@ -262,8 +263,9 @@ const App = new USRCore();
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Inisialisasi Canvas Background
-    const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
-
+    //const bgCanvas = initIRobotTheme('neuralPositronic', 'neural');
+    initBackgroundAnimation();
+    
     // 2. Register Form
     App.registerForm('verval', renderVervalForm);
     App.registerForm('register', renderRegisterForm);
@@ -273,7 +275,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 3. Register Modul Dashboard (Kartu + Video + AI)
     // Register Modul Dashboard dengan Lazy Loading Playlist
     App.registerModule('dashboard', 'Dashboard', (core) => {
-        if (bgCanvas) bgCanvas.setMode('neural');
+        //if (bgCanvas) bgCanvas.setMode('neural');
         
         const container = document.createElement('div');
         const user = core.getUserData();
@@ -320,7 +322,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // 4. Register Modul Keamanan
     App.registerModule('security', 'Keamanan', (core) => {
-        if (bgCanvas) bgCanvas.setMode('positronic');
+        //if (bgCanvas) bgCanvas.setMode('positronic');
         
         const container = document.createElement('div');
         container.className = 'usr-card';
